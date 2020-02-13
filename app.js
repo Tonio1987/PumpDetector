@@ -4,6 +4,7 @@ require('dotenv').config();
 // NOTIFIER
 var Push = require( 'pushover-notifications' );
 
+
 // CALL TRADING ROBOT
 
 
@@ -24,13 +25,11 @@ app.use(express.static(path.join(__dirname, 'views')));
 
 // CALL ROUTES
 var indexRouter = require('./routes/index');
-var chatRouter = require('./routes/chat');
 var notifyRouter = require('./routes/notify');
 var settingsRouter = require('./routes/settings');
 
 
 app.use('/', indexRouter);
-app.use('/chat', chatRouter);
 app.use('/notify', notifyRouter);
 app.use('/settings', settingsRouter);
 
@@ -57,5 +56,7 @@ p.send( msg, function( err, result ) {
   console.log( result );
 })
 */
+
+
 
 module.exports = app;
