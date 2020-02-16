@@ -22,7 +22,7 @@ module.exports = {
                 if (err) {
                     reject(err);
                 }
-                let sql = 'DELETE FROM T_EXCHANGE_INFO_EXI';
+                let sql = 'DELETE FROM T_API_EXCHANGE_INFO_EXI';
                 con.query(sql, function (err, result) {
                     if (err) {
                         reject(err);
@@ -45,7 +45,7 @@ module.exports = {
                 if (err) {
                     reject(err);
                 }
-                let sql = "INSERT INTO T_EXCHANGE_INFO_EXI (EXI_ID, EXI_DATETIME, EXI_SYMBOL, EXI_STATUS, EXI_BASE_ASSET, EXI_BASE_ASSET_PRECISION, EXI_QUOTE_ASSET, EXI_QUOTE_PRECISION, EXI_ICEBERG_ALLOWED) VALUES ?";
+                let sql = "INSERT INTO T_API_EXCHANGE_INFO_EXI (EXI_ID, EXI_DATETIME, EXI_SYMBOL, EXI_STATUS, EXI_BASE_ASSET, EXI_BASE_ASSET_PRECISION, EXI_QUOTE_ASSET, EXI_QUOTE_PRECISION, EXI_ICEBERG_ALLOWED) VALUES ?";
                 let id = uuidv1();
                 let datetime = moment().format();
                 let line = [];
@@ -86,7 +86,7 @@ module.exports = {
                 if (err){
                     reject(err);
                 }
-                let sql = 'SELECT EXI_SYMBOL FROM T_EXCHANGE_INFO_EXI';
+                let sql = 'SELECT EXI_SYMBOL FROM T_API_EXCHANGE_INFO_EXI';
                 con.query(sql, function (err, result, fields) {
                     if (err){
                         reject(err);

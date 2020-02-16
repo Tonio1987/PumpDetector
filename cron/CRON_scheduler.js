@@ -7,9 +7,14 @@ const moment = require('moment');
 let server_start_time = moment();
 
 // CONTROLLER CALL REQUIRE
+// API
 const CTRL_ExchangeInfo = require('../controller/backend/api_controller/CTRL_ExchangeInfo');
 const CTRL_Prices = require('../controller/backend/api_controller/CTRL_Prices');
 const CTRL_Candles = require('../controller/backend/api_controller/CTRL_Candles');
+
+// PURGE
+const CTRL_PurgePrices = require('../controller/backend/purge_controller/CTRL_PurgePricesr');
+const CTRL_PurgeCandles = require('../controller/backend/purge_controller/CTRL_PurgeCandles');
 
 // INIT TASKS
 // SERVER CHECK TASKS
@@ -20,6 +25,8 @@ let task_LoadExchangeInfo = null;
 let task_LoadPrices = null;
 let task_LoadCandles = null;
 
+// PURGE
+let task_PurgeData = null;
 
 // HANDLER DYNAMIC FUNCTION
 let Handler={};
@@ -64,6 +71,16 @@ Handler.init_task_LoadCandles = function (cron_expression){
     });
 };
 
+// PURGE DATA
+Handler.init_task_PurgeData = function (cron_expression){
+    task_PurgeData = cron.schedule(cron_expression, () =>  {
+        logger.info('*** CRON SCHEDULER *** -> Purge Data ... ');
+        CTRL_PurgePrices.purgeData();
+        CTRL_PurgeCandles.purgeData();
+    }, {
+        scheduled: false
+    });
+};
 
 
 // SERVER CHECK TASKS
@@ -80,6 +97,10 @@ Handler.stop_task_LoadPrices = function(){task_LoadPrices.stop();};
 
 Handler.start_task_LoadCandles = function(){task_LoadCandles.start();};
 Handler.stop_task_LoadCandles = function(){task_LoadCandles.stop();};
+
+// PURGE
+Handler.start_task_PurgeData = function(){task_PurgeData.start();};
+Handler.stop_task_PurgeData = function(){task_PurgeData.stop();};
 
 module.exports = {
    initTasksScheduler: function (callback, tasks) {

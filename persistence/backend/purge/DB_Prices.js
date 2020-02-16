@@ -1,6 +1,5 @@
 const moment = require('moment');
 const mysql = require('mysql');
-const uuidv1 = require('uuid/v1');
 
 moment.locale('fr');
 
@@ -15,33 +14,18 @@ function createConnection(){
 }
 
 module.exports = {
-    insertPrices: function (callback, data) {
+    purgeData: function (callback, timeAgo) {
         new Promise(function (resolve, reject) {
             let con = createConnection();
             con.connect(function (err) {
                 if (err) {
                     reject(err);
                 }
-                let sql = "INSERT INTO T_API_PRICE_PRI (PRI_ID, PRI_DATETIME, PRI_SYMBOL, PRI_PRICE) VALUES ?";
-
-                let id = uuidv1();
-                let datetime = moment().format();
-                let line = [];
-                let values = [];
-                for(let i in data){
-                    line = [
-                        id,
-                        datetime,
-                        i,
-                        data[i]
-                    ];
-                    values.push(line);
-                }
-                con.query(sql, [values], function (err, result) {
-                    if (err) {
+                let sql = 'DELETE FROM T_API_PRICE_PRI WHERE PRI_DATETIME < '+timeAgo;
+                con.query(sql, function (err, result, fields) {
+                    if (err){
                         reject(err);
                     }
-                    // console.log("Number of records deleted: " + result.affectedRows);
                     con.destroy();
                     resolve(result);
                 });
