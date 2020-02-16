@@ -18,7 +18,7 @@ module.exports = {
                 if (err){
                     reject(err);
                 }
-                let sql = 'SELECT * FROM TS_CRON_TASK_CTK';
+                let sql = 'SELECT * FROM TS_CRON_TASK_CRT';
                 con.query(sql, function (err, result, fields) {
                     if (err){
                         reject(err);

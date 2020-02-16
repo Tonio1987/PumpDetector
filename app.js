@@ -89,8 +89,9 @@ loggerjs.info('-------> Server started !');
 /*
 TEST ZONE
  */
-/*
-const CTRL_TEST = require('./controller/backend/api_controller/CTRL_ExchangeInfo');
-CTRL_TEST.LoadExchangeInfo();
-*/
+
+
+const CTRL_TEST = require('./controller/backend/api_controller/CTRL_Candles');
+CTRL_TEST.LoadCandles();
+
 module.exports = app;

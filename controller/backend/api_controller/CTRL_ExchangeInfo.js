@@ -13,7 +13,7 @@ module.exports = {
             CONTROLLER DESCRIPTION
             1 - We drop Exchange Info collection in DB
             2 - We load Exchange Info via Binance API
-            3 - We insert in DB the EXI_EXCHANGE_INFO
+            3 - We insert in DB the T_EXCHANGE_INFO_EXI
          */
 
         async.waterfall([

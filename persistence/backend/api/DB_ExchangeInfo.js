@@ -78,5 +78,28 @@ module.exports = {
         }).catch(function (err) {
             callback(err, null);
         });
+    },
+    getExchangeInfo: function (callback) {
+        new Promise(function (resolve, reject) {
+            let con = createConnection();
+            con.connect(function(err) {
+                if (err){
+                    reject(err);
+                }
+                let sql = 'SELECT EXI_SYMBOL FROM T_EXCHANGE_INFO_EXI';
+                con.query(sql, function (err, result, fields) {
+                    if (err){
+                        reject(err);
+                    }
+                    con.destroy();
+                    resolve(result);
+                });
+            });
+        }).then(function(data){
+            callback(null, data);
+        }).catch(function(err) {
+            callback(err, null);
+        });
     }
+
 };

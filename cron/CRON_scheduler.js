@@ -8,6 +8,8 @@ let server_start_time = moment();
 
 // CONTROLLER CALL REQUIRE
 const CTRL_ExchangeInfo = require('../controller/backend/api_controller/CTRL_ExchangeInfo');
+const CTRL_Prices = require('../controller/backend/api_controller/CTRL_Prices');
+const CTRL_Candles = require('../controller/backend/api_controller/CTRL_Candles');
 
 // INIT TASKS
 // SERVER CHECK TASKS
@@ -15,6 +17,8 @@ let task_ServerOk = null;
 
 // API TASKS
 let task_LoadExchangeInfo = null;
+let task_LoadPrices = null;
+let task_LoadCandles = null;
 
 
 // HANDLER DYNAMIC FUNCTION
@@ -29,11 +33,32 @@ Handler.init_task_ServerOk = function (cron_expression){
     });
 };
 
+// API
 // LOAD EXCHANGE INFO
 Handler.init_task_LoadExchangeInfo = function (cron_expression){
     task_LoadExchangeInfo = cron.schedule(cron_expression, () =>  {
         logger.info('*** CRON SCHEDULER *** -> Load Exchange Info ... ');
         CTRL_ExchangeInfo.LoadExchangeInfo();
+    }, {
+        scheduled: false
+    });
+};
+
+// LOAD PRICES
+Handler.init_task_LoadPrices = function (cron_expression){
+    task_LoadPrices = cron.schedule(cron_expression, () =>  {
+        logger.info('*** CRON SCHEDULER *** -> Load Prices ... ');
+        CTRL_Prices.LoadPrices();
+    }, {
+        scheduled: false
+    });
+};
+
+// LOAD Candlestick
+Handler.init_task_LoadCandles = function (cron_expression){
+    task_LoadCandles = cron.schedule(cron_expression, () =>  {
+        logger.info('*** CRON SCHEDULER *** -> Load Candlesticks ... ');
+        CTRL_Candles.LoadCandles();
     }, {
         scheduled: false
     });
@@ -45,27 +70,32 @@ Handler.init_task_LoadExchangeInfo = function (cron_expression){
 Handler.start_task_ServerOk = function(){task_ServerOk.start();};
 Handler.stop_task_ServerOk = function(){task_ServerOk.stop();};
 
+// API
 // BINANCE API TASKS
 Handler.start_task_LoadExchangeInfo = function(){task_LoadExchangeInfo.start();};
 Handler.stop_task_LoadExchangeInfo = function(){task_LoadExchangeInfo.stop();};
 
+Handler.start_task_LoadPrices = function(){task_LoadPrices.start();};
+Handler.stop_task_LoadPrices = function(){task_LoadPrices.stop();};
+
+Handler.start_task_LoadCandles = function(){task_LoadCandles.start();};
+Handler.stop_task_LoadCandles = function(){task_LoadCandles.stop();};
 
 module.exports = {
    initTasksScheduler: function (callback, tasks) {
        for(let i in tasks) {
             if (tasks.hasOwnProperty(i)) {
-                let cron_expression = tasks[i].CTK_CRON_EXPR;
-                let active = tasks[i].CTK_ACTIVE;
-                let fctName = 'init_'+tasks[i].CTK_NAME.toString().trim();
-
+                let cron_expression = tasks[i].CRT_CRON_EXPR;
+                let active = tasks[i].CRT_ACTIVE;
+                let fctName = 'init_'+tasks[i].CRT_NAME.toString().trim();
                 // INIT DU SCHEDULER
                 Handler[fctName](cron_expression);
 
                 if(active === 1){
-                    fctName = 'start_'+tasks[i].CTK_NAME.toString().trim();
+                    fctName = 'start_'+tasks[i].CRT_NAME.toString().trim();
                     Handler[fctName](cron_expression);
                 }else{
-                    fctName = 'stop_'+tasks[i].CTK_NAME.toString().trim();
+                    fctName = 'stop_'+tasks[i].CRT_NAME.toString().trim();
                     Handler[fctName]();
                 }
             }
@@ -75,15 +105,15 @@ module.exports = {
     reloadTasksScheduler: function (callback, tasks) {
         for(let i in tasks) {
             if (tasks.hasOwnProperty(i)) {
-                let cron_expression = tasks[i].CTK_CRON_EXPR;
-                let active = tasks[i].CTK_ACTIVE;
+                let cron_expression = tasks[i].CRT_CRON_EXPR;
+                let active = tasks[i].CRT_ACTIVE;
                 let fctName = '';
 
                 if(active === 1){
-                    fctName = 'start_'+tasks[i].CTK_NAME.toString().trim();
+                    fctName = 'start_'+tasks[i].CRT_NAME.toString().trim();
                     Handler[fctName](cron_expression);
                 }else{
-                    fctName = 'stop_'+tasks[i].CTK_NAME.toString().trim();
+                    fctName = 'stop_'+tasks[i].CRT_NAME.toString().trim();
                     Handler[fctName]();
                 }
             }
