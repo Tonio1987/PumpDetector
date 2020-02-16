@@ -90,8 +90,8 @@ loggerjs.info('-------> Server started !');
 TEST ZONE
  */
 
-
-const CTRL_TEST = require('./controller/backend/api_controller/CTRL_Candles');
-CTRL_TEST.LoadCandles();
-
+/*
+const CTRL_TEST = require('./controller/backend/algorithm_controller/evol_crypto/CTRL_EvolCrypto');
+CTRL_TEST.LoadEvolCrypto();
+**/
 module.exports = app;

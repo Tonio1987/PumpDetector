@@ -14,14 +14,16 @@ function createConnection(){
 }
 
 module.exports = {
-    getPrices: function (callback, symbol, parameters) {
+    getPrices: function (callback, symbol, parameters, param_fw1) {
         new Promise(function (resolve, reject) {
             let con = createConnection();
+            let nbPeriod = parameters[0].PMT_VALUE;
+            let timeAgo = moment(new Date()).add(-nbPeriod, 'minutes').valueOf();
             con.connect(function (err) {
                 if (err) {
                     reject(err);
                 }
-                let sql = 'SELECT * FROM T_API_PRICE_PRI';
+                let sql = 'SELECT * FROM T_API_PRICE_PRI WHERE PRI_SYMBOL = '+symbol+'AND PRI_DATETIME > '+timeAgo;
                 con.query(sql, function (err, result, fields) {
                     if (err){
                         reject(err);
@@ -31,9 +33,9 @@ module.exports = {
                 });
             });
         }).then(function (data) {
-            callback(null, data, symbol, parameters);
+            callback(null, data, symbol, parameters, param_fw1);
         }).catch(function (err) {
-            callback(err, null, symbol, parameters);
+            callback(err, null, symbol, parameters, param_fw1);
         });
     }
 };

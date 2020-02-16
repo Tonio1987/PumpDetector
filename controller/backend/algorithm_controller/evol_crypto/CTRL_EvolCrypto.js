@@ -7,19 +7,17 @@ const DB_Parameters = require('../../../../persistence/backend/algorithm/evol_cr
 const DB_ExchangeInfo = require('../../../../persistence/backend/algorithm/evol_crypto/DB_ExchangeInfo');
 const DB_Price = require('../../../../persistence/backend/algorithm/evol_crypto/DB_Prices');
 const DB_Candles = require('../../../../persistence/backend/algorithm/evol_crypto/DB_Candles');
+const ALGO_EvolCrypto = require('../../../../algorithm/evol_crypto/EvolCrypto_Algorithm');
 
-const DB_Candles = require('../../../persistence/backend/api/DB_Candles');
 const async = require('async');
-const moment = require('moment');
 
 module.exports = {
-    LoadCandles: function() {
+    LoadEvolCrypto: function() {
         /*
             CONTROLLER DESCRIPTION
             1 - We load Candles via Binance API
             2 - We insert in DB the T_CANDLE_CAD
          */
-        let timeAgo = moment(new Date()).add(-1, 'minutes').valueOf();
 
         async.waterfall([
             STEP_DB_getParameter,
@@ -61,25 +59,25 @@ module.exports = {
 
         function STEP_DB_getCandles(err, prices, symbol, parameters, iter) {
             if(!err){
-                DB_Candles.getCandles(STEP_ALGO_calculateEvolCrypto, data[0], symbol, iter);
+                DB_Candles.getCandles(STEP_ALGO_calculateEvolCrypto, symbol, parameters, prices, iter);
+            }else{
+                STEP_finish(err, prices, iter);
+            }
+        }
+
+        function STEP_ALGO_calculateEvolCrypto(err, candles, symbol, prices, iter) {
+            if(!err){
+                ALGO_EvolCrypto.calculate_EvolCrypto(STEP_DB_insertCandles, candles, symbol, prices, iter);
+            }else{
+                STEP_finish(err, candles, iter);
+            }
+        }
+
+        function STEP_DB_insertCandles(err, data, iter) {
+            if(!err){
+
             }else{
                 STEP_finish(err, data, iter);
-            }
-        }
-
-        function STEP_ALGO_calculateEvolCrypto(err, candles, prices, iter) {
-            if(!err){
-
-            }else{
-                STEP_finish(err, data);
-            }
-        }
-
-        function STEP_DB_insertCandles(err, candles, prices, iter) {
-            if(!err){
-
-            }else{
-                STEP_finish(err, data);
             }
         }
 
