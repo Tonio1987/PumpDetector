@@ -15,7 +15,7 @@ function createConnection(){
 }
 
 module.exports = {
-    insertPrices: function (callback, data) {
+    insertPrices: function (callback, data, now) {
         new Promise(function (resolve, reject) {
             let con = createConnection();
             con.connect(function (err) {
@@ -25,13 +25,12 @@ module.exports = {
                 let sql = "INSERT INTO T_API_PRICE_PRI (PRI_ID, PRI_DATETIME, PRI_SYMBOL, PRI_PRICE) VALUES ?";
 
                 let id = uuidv1();
-                let datetime = moment().format();
                 let line = [];
                 let values = [];
                 for(let i in data){
                     line = [
                         id,
-                        datetime,
+                        now,
                         i,
                         data[i]
                     ];

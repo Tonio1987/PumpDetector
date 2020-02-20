@@ -3,9 +3,10 @@ var log4js = require('log4js');
 var logger = log4js.getLogger();
 logger.level = 'debug';
 
+const moment = require('moment');
+
 const DB_Parameters = require('../../../../persistence/backend/algorithm/evol_crypto/DB_Parameters');
 const DB_ExchangeInfo = require('../../../../persistence/backend/algorithm/evol_crypto/DB_ExchangeInfo');
-const DB_Price = require('../../../../persistence/backend/algorithm/evol_crypto/DB_Prices');
 const DB_Candles = require('../../../../persistence/backend/algorithm/evol_crypto/DB_Candles');
 const ALGO_EvolCrypto = require('../../../../algorithm/evol_crypto/EvolCrypto_Algorithm');
 
@@ -13,19 +14,18 @@ const async = require('async');
 
 module.exports = {
     LoadEvolCrypto: function() {
-        /*
-            CONTROLLER DESCRIPTION
-            1 - We load Candles via Binance API
-            2 - We insert in DB the T_CANDLE_CAD
-         */
+
+        let now = moment().valueOf();
 
         async.waterfall([
             STEP_DB_getParameter,
             STEP_DB_getExchangeInfo,
-            STEP_DB_getPrices,
             STEP_DB_getCandles,
+            STEP_DB_getAVGVolume,
+            STEP_DB_getLastEvolCtypto,
+            STEP_DB_updateLastEvolCrypto,
             STEP_ALGO_calculateEvolCrypto,
-            STEP_DB_insertCandles,
+            STEP_DB_insertEvolCrypto,
             STEP_finish
         ], function (err, result) {
             // Nothing to do here
@@ -37,19 +37,19 @@ module.exports = {
 
         function STEP_DB_getExchangeInfo(err, parameters) {
             if(!err){
-                DB_ExchangeInfo.getExchangeInfo(STEP_DB_getPrices, parameters);
+                DB_ExchangeInfo.getExchangeInfo(STEP_DB_getCandles, parameters);
             }else{
                 STEP_finish(err, parameters);
             }
         }
 
-        function STEP_DB_getPrices(err, data, parameters) {
+        function STEP_DB_getCandles(err, data, parameters) {
             if(!err){
                 for(let i=0; i<data.length; i++){
                     if(i === data.length-1){
-                        DB_Price.getPrices(STEP_DB_getCandles, data[i].EXI_SYMBOL, parameters ,true);
+                        DB_Candles.getLastCandle(STEP_DB_getCandles, data[i].EXI_SYMBOL, parameters ,true);
                     }else{
-                        DB_Price.getPrices(STEP_DB_getCandles, data[i].EXI_SYMBOL, parameters, false);
+                        DB_Candles.getLastCandle(STEP_DB_getCandles, data[i].EXI_SYMBOL, parameters, false);
                     }
                 }
             }else{
@@ -57,12 +57,8 @@ module.exports = {
             }
         }
 
-        function STEP_DB_getCandles(err, prices, symbol, parameters, iter) {
-            if(!err){
-                DB_Candles.getCandles(STEP_ALGO_calculateEvolCrypto, symbol, parameters, prices, iter);
-            }else{
-                STEP_finish(err, prices, iter);
-            }
+        function  STEP_DB_getAVGVolume(err, data) {
+
         }
 
         function STEP_ALGO_calculateEvolCrypto(err, candles, symbol, prices, iter) {

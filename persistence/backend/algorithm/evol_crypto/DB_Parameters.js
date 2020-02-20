@@ -18,8 +18,9 @@ module.exports = {
                 if (err){
                     reject(err);
                 }
-                let sql = 'SELECT PMT_VALUE FROM TR_PARAMETER_PMT WHERE PMT_ALGO = \"EVOL_DETECTOR\"';
-                con.query(sql, function (err, result, fields) {
+                let PMT_ALGO = ["PUMP_DETECTOR"];
+                let sql = 'SELECT PMT_VALUE FROM TR_PARAMETER_PMT WHERE PMT_ALGO = ?';
+                con.query(sql, [PMT_ALGO],  function (err, result, fields) {
                     if (err){
                         reject(err);
                     }

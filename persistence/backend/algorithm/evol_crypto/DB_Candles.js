@@ -13,17 +13,15 @@ function createConnection(){
 }
 
 module.exports = {
-    getCandles: function (callback, symbol, parameters, param_fw1, param_fw2) {
+    getLastCandle: function (callback, symbol, parameters, param_fw1, param_fw2) {
         new Promise(function (resolve, reject) {
             let con = createConnection();
-            let nbPeriod = parameters[0].PMT_VALUE;
-            let timeAgo = moment(new Date()).add(-nbPeriod, 'minutes').valueOf();
             con.connect(function (err) {
                 if (err) {
                     reject(err);
                 }
-                let sql = 'SELECT * FROM T_API_CANDLE_CAD WHERE CAD_SYMBOL = '+symbol+'AND CAD_DATETIME > '+timeAgo;
-                con.query(sql, function (err, result, fields) {
+                let sql = 'SELECT * FROM T_API_CANDLE_CAD WHERE CAD_SYMBOL = ? AND CAD_DATETIME > ?';
+                con.query(sql, [symbol, timeAgo],function (err, result, fields) {
                     if (err){
                         reject(err);
                     }

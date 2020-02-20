@@ -3,6 +3,8 @@ var log4js = require('log4js');
 var logger = log4js.getLogger();
 logger.level = 'debug';
 
+const moment = require('moment');
+
 const API_Prices = require('../../../api/binance/API_Prices');
 const DB_Prices = require('../../../persistence/backend/api/DB_Prices');
 const async = require('async');
@@ -14,6 +16,7 @@ module.exports = {
             1 - We load Prices via Binance API
             2 - We insert in DB the T_PRICES_PRS
          */
+        let now = moment().valueOf();
 
         async.waterfall([
             STEP_API_getPrices,
@@ -29,7 +32,7 @@ module.exports = {
 
         function STEP_DB_insertPrices(err, data) {
             if(!err){
-                DB_Prices.insertPrices(STEP_finish, data);
+                DB_Prices.insertPrices(STEP_finish, data, now);
             }else{
                 STEP_finish(err, data);
             }

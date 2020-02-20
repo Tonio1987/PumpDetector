@@ -15,7 +15,7 @@ function createConnection(){
 }
 
 module.exports = {
-    insertCandles: function (callback, data, symbol, param_fw1) {
+    insertCandles: function (callback, data, symbol, now, param_fw1) {
         new Promise(function (resolve, reject) {
             let con = createConnection();
             con.connect(function (err) {
@@ -25,7 +25,7 @@ module.exports = {
                 let sql = "INSERT INTO T_API_CANDLE_CAD (CAD_ID, CAD_DATETIME, CAD_SYMBOL, CAD_OPEN_TIME, CAD_OPEN_DATETIME, CAD_OPEN_PRICE, CAD_HIGH_PRICE, CAD_LOW_PRICE, CAD_CLOSE_PRICE, CAD_VOLUME, CAD_CLOSE_TIME, CAD_CLOSE_DATETIME, CAD_QUOTE_ASSET_VOLUME, CAD_NUMBER_OF_TRADES, CAD_TAKER_BUY_BASE_ASSET_VOLUME, CAD_TAKER_BUY_QUOTE_ASSET_VOLUME) VALUES ?";
 
                 let id = uuidv1();
-                let datetime = moment().format();
+
                 let line = [];
                 let values = [];
                 let openDateTime = moment(data.openTime).format();
@@ -33,7 +33,7 @@ module.exports = {
 
                 line = [
                     id,
-                    datetime,
+                    now,
                     symbol,
                     data.openTime,
                     openDateTime,

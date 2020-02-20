@@ -17,6 +17,7 @@ module.exports = {
             2 - We insert in DB the T_CANDLE_CAD
          */
         let timeAgo = moment(new Date()).add(-1, 'minutes').valueOf();
+        let now = moment().valueOf();
 
         async.waterfall([
             STEP_DB_getExchangeInfo,
@@ -44,7 +45,7 @@ module.exports = {
         function STEP_DB_insertCandles(err, data, symbol, iter) {
             if(!err){
                 if(data.length>0){
-                    DB_Candles.insertCandles(STEP_finish, data[0], symbol, iter);
+                    DB_Candles.insertCandles(STEP_finish, data[0], symbol, now, iter);
                 }else{
                     //logger.warn('*** CONTROLLER *** ->  No data for symbol  '+symbol+' !');
                     STEP_finish(err, data, iter);
