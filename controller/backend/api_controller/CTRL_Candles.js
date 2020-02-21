@@ -8,6 +8,7 @@ const DB_ExchangeInfo = require('../../../persistence/backend/api/DB_ExchangeInf
 const DB_Candles = require('../../../persistence/backend/api/DB_Candles');
 const async = require('async');
 const moment = require('moment');
+moment.locale('fr');
 
 module.exports = {
     LoadCandles: function() {
@@ -17,7 +18,7 @@ module.exports = {
             2 - We insert in DB the T_CANDLE_CAD
          */
         let timeAgo = moment(new Date()).add(-1, 'minutes').valueOf();
-        let now = moment().valueOf();
+        let now = moment().format();
 
         async.waterfall([
             STEP_DB_getExchangeInfo,
