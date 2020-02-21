@@ -15,32 +15,17 @@ function createConnection(){
 }
 
 module.exports = {
-   getLastAvgVolumeTrades: function (callback, data, symbol, param_fw1) {
+   getLastAvgVolumeTrades: function (callback, param_fw1, param_fw2, param_fw3) {
         new Promise(function (resolve, reject) {
             let con = createConnection();
             con.connect(function (err) {
                 if (err) {
                     reject(err);
                 }
-                let sql = "INSERT INTO T_ALGO_AVG_VOL_TRADES_AVT (AVT_ID, AVT_DATETIME, AVT_SYMBOL, AVT_AVG_VOLUME_TRADE, AVT_NB_TRADES) VALUES ?";
 
-                let id = uuidv1();
-                let datetime = moment().format();
-                let line = [];
-                let values = [];
-
-                line = [
-                    id,
-                    datetime,
-                    symbol,
-                    data[0],
-                    data[1]
-
-                ];
-                values.push(line);
-
-                con.query(sql, [values], function (err, result) {
-                    if (err) {
+                let sql = 'SELECT * FROM T_ALGO_AVG_VOL_TRADES_AVT WHERE AVT_DATETIME = (SELECT MAX(AVT_DATETIME) FROM T_ALGO_AVG_VOL_TRADES_AVT)';
+                con.query(sql, [], function (err, result, fields) {
+                    if (err){
                         reject(err);
                     }
                     con.destroy();
@@ -48,31 +33,9 @@ module.exports = {
                 });
             });
         }).then(function (data) {
-            callback(null, data, param_fw1);
+            callback(null, data, param_fw1, param_fw2, param_fw3);
         }).catch(function (err) {
-            callback(err, null, param_fw1);
-        });
-    },
-    purgeData: function (callback) {
-        new Promise(function (resolve, reject) {
-            let con = createConnection();
-            con.connect(function (err) {
-                if (err) {
-                    reject(err);
-                }
-                let sql = 'DELETE FROM T_ALGO_AVG_VOL_TRADES_AVT';
-                con.query(sql, function (err, result, fields) {
-                    if (err) {
-                        reject(err);
-                    }
-                    con.destroy();
-                    resolve(result);
-                });
-            });
-        }).then(function (data) {
-            callback(null, data);
-        }).catch(function (err) {
-            callback(err, null);
+            callback(err, null, param_fw1, param_fw2, param_fw3);
         });
     }
 };

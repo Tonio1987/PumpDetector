@@ -91,7 +91,7 @@ TEST ZONE
  */
 
 /*
-const CTRL_TEST = require('./controller/backend/algorithm_controller/avg_trade_volume/CTRLAvgTradeVolume');
+const CTRL_TEST = require('./controller/backend/algorithm_controller/evol_crypto/CTRL_EvolCrypto');
 CTRL_TEST.LoadEvolCrypto();
 */
 

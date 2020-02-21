@@ -13,7 +13,7 @@ function createConnection(){
 }
 
 module.exports = {
-    getLastCandle: function (callback, symbol, parameters, param_fw1) {
+    getLastCandle: function (callback, param_fw1) {
         new Promise(function (resolve, reject) {
             let con = createConnection();
             con.connect(function (err) {
@@ -31,9 +31,9 @@ module.exports = {
                 });
             });
         }).then(function (data) {
-            callback(null, data, symbol, param_fw1);
+            callback(null, data, param_fw1);
         }).catch(function (err) {
-            callback(err, null, symbol, param_fw1);
+            callback(err, null, param_fw1);
         });
     }
 };
