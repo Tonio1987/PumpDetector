@@ -32,26 +32,12 @@ module.exports = {
         });
 
         function STEP_DB_getParameter() {
-            DB_Parameters.getAlgorithmParameters(STEP_DB_getExchangeInfo);
-        }
-
-        function STEP_DB_getExchangeInfo(err, parameters) {
-            if(!err){
-                DB_ExchangeInfo.getExchangeInfo(STEP_DB_getCandles, parameters);
-            }else{
-                STEP_finish(err, parameters);
-            }
+            DB_Parameters.getAlgorithmParameters(STEP_DB_getCandles);
         }
 
         function STEP_DB_getCandles(err, data, parameters) {
             if(!err){
-                for(let i=0; i<data.length; i++){
-                    if(i === data.length-1){
-                        DB_Candles.getLastCandle(STEP_DB_getCandles, data[i].EXI_SYMBOL, parameters ,true);
-                    }else{
-                        DB_Candles.getLastCandle(STEP_DB_getCandles, data[i].EXI_SYMBOL, parameters, false);
-                    }
-                }
+                DB_Candles.getLastCandle(STEP_DB_getCandles, data[i].EXI_SYMBOL, parameters);
             }else{
                 STEP_finish(err, data);
             }

@@ -23,7 +23,7 @@ module.exports = {
                 if (err) {
                     reject(err);
                 }
-                let sql = 'SELECT * FROM T_API_CANDLE_CAD WHERE CAD_SYMBOL = ? AND CAD_DATETIME > ?';
+                let sql = 'SELECT AVG(CAD_VOLUME) AS AVG_CAD_VOLUME, AVG(CAD_NUMBER_OF_TRADES) AS AVG_CAD_NB_TRADES FROM T_API_CANDLE_CAD WHERE CAD_SYMBOL = ? AND CAD_DATETIME > ?';
                 con.query(sql, [symbol, timeAgo], function (err, result, fields) {
                     if (err){
                         reject(err);
@@ -33,9 +33,9 @@ module.exports = {
                 });
             });
         }).then(function (data) {
-            callback(null, data, symbol, parameters, param_fw1);
+            callback(null, data, symbol, param_fw1);
         }).catch(function (err) {
-            callback(err, null, symbol, parameters, param_fw1);
+            callback(err, null, symbol, param_fw1);
         });
     }
 };

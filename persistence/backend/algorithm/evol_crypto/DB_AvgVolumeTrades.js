@@ -15,7 +15,7 @@ function createConnection(){
 }
 
 module.exports = {
-    insertAvgVolumeTrades: function (callback, data, symbol, now, param_fw1) {
+   getLastAvgVolumeTrades: function (callback, data, symbol, param_fw1) {
         new Promise(function (resolve, reject) {
             let con = createConnection();
             con.connect(function (err) {
@@ -25,15 +25,17 @@ module.exports = {
                 let sql = "INSERT INTO T_ALGO_AVG_VOL_TRADES_AVT (AVT_ID, AVT_DATETIME, AVT_SYMBOL, AVT_AVG_VOLUME_TRADE, AVT_NB_TRADES) VALUES ?";
 
                 let id = uuidv1();
+                let datetime = moment().format();
                 let line = [];
                 let values = [];
 
                 line = [
                     id,
-                    now,
+                    datetime,
                     symbol,
-                    data[0].AVG_CAD_VOLUME,
-                    data[0].AVG_CAD_NB_TRADES
+                    data[0],
+                    data[1]
+
                 ];
                 values.push(line);
 

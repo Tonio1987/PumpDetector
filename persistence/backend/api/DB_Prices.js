@@ -23,7 +23,6 @@ module.exports = {
                     reject(err);
                 }
                 let sql = "INSERT INTO T_API_PRICE_PRI (PRI_ID, PRI_DATETIME, PRI_SYMBOL, PRI_PRICE) VALUES ?";
-                console.log(now);
                 let id = uuidv1();
                 let line = [];
                 let values = [];

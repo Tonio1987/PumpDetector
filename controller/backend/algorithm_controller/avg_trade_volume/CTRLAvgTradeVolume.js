@@ -3,6 +3,9 @@ var log4js = require('log4js');
 var logger = log4js.getLogger();
 logger.level = 'debug';
 
+const moment = require('moment');
+moment.locale('fr');
+
 const DB_Parameters = require('../../../../persistence/backend/algorithm/avg_trade_volume/DB_Parameters');
 const DB_ExchangeInfo = require('../../../../persistence/backend/algorithm/avg_trade_volume/DB_ExchangeInfo');
 const DB_Candles = require('../../../../persistence/backend/algorithm/avg_trade_volume/DB_Candles');
@@ -19,13 +22,13 @@ module.exports = {
             1 - We load Candles via Binance API
             2 - We insert in DB the T_CANDLE_CAD
          */
+        let now = moment().format();
 
         async.waterfall([
             STEP_DB_deletePreviousAvgVolume,
             STEP_DB_getParameter,
             STEP_DB_getExchangeInfo,
-            STEP_DB_getPrices,
-            STEP_ALGO_calculateAvgPrices,
+            STEP_DB_getCandles,
             STEP_DB_insertAvgVolumes,
             STEP_finish
         ], function (err, result) {
@@ -46,19 +49,19 @@ module.exports = {
 
         function STEP_DB_getExchangeInfo(err, parameters) {
             if(!err){
-                DB_ExchangeInfo.getExchangeInfo(STEP_DB_getPrices, parameters);
+                DB_ExchangeInfo.getExchangeInfo(STEP_DB_getCandles, parameters);
             }else{
                 STEP_finish(err, parameters);
             }
         }
 
-        function STEP_DB_getPrices(err, data, parameters) {
+        function STEP_DB_getCandles(err, data, parameters) {
             if(!err){
                 for(let i=0; i<data.length; i++){
                     if(i === data.length-1){
-                        DB_Candles.getCandles(STEP_ALGO_calculateAvgPrices, data[i].EXI_SYMBOL, parameters ,true);
+                        DB_Candles.getCandles(STEP_DB_insertAvgVolumes, data[i].EXI_SYMBOL, parameters ,true);
                     }else{
-                        DB_Candles.getCandles(STEP_ALGO_calculateAvgPrices, data[i].EXI_SYMBOL, parameters, false);
+                        DB_Candles.getCandles(STEP_DB_insertAvgVolumes, data[i].EXI_SYMBOL, parameters, false);
                     }
                 }
             }else{
@@ -66,17 +69,9 @@ module.exports = {
             }
         }
 
-        function STEP_ALGO_calculateAvgPrices(err, candles, symbol, parameters, iter) {
-            if(!err){
-                ALGO_AvgVolume.calculate_AvgVolume(STEP_DB_insertAvgVolumes, symbol, candles, parameters, iter);
-            }else{
-                STEP_finish(err, candles, iter);
-            }
-        }
-
         function STEP_DB_insertAvgVolumes(err, data, symbol, iter) {
             if(!err){
-                DB_AvgVolumeTrades.insertAvgVolumeTrades(STEP_finish, data, symbol, iter)
+                DB_AvgVolumeTrades.insertAvgVolumeTrades(STEP_finish, data, symbol, now, iter)
             }else{
                 STEP_finish(err, data, iter);
             }

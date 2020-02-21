@@ -13,15 +13,16 @@ function createConnection(){
 }
 
 module.exports = {
-    getLastCandle: function (callback, symbol, parameters, param_fw1, param_fw2) {
+    getLastCandle: function (callback, symbol, parameters, param_fw1) {
         new Promise(function (resolve, reject) {
             let con = createConnection();
             con.connect(function (err) {
                 if (err) {
                     reject(err);
                 }
-                let sql = 'SELECT * FROM T_API_CANDLE_CAD WHERE CAD_SYMBOL = ? AND CAD_DATETIME > ?';
-                con.query(sql, [symbol, timeAgo],function (err, result, fields) {
+
+                let sql = 'SELECT * FROM T_API_CANDLE_CAD WHERE CAD_DATETIME = (SELECT MAX(CAD_DATETIME) FROM T_API_CANDLE_CAD)';
+                con.query(sql, [], function (err, result, fields) {
                     if (err){
                         reject(err);
                     }
@@ -30,9 +31,9 @@ module.exports = {
                 });
             });
         }).then(function (data) {
-            callback(null, data, symbol, param_fw1, param_fw2);
+            callback(null, data, symbol, param_fw1);
         }).catch(function (err) {
-            callback(err, null, symbol, param_fw1, param_fw2);
+            callback(err, null, symbol, param_fw1);
         });
     }
 };

@@ -36,9 +36,9 @@ module.exports = {
         function STEP_API_getCandles(err, data) {
             for(let i=0; i<data.length; i++){
                 if(i === data.length-1){
-                    API_Candles.binance_Candles(STEP_DB_insertCandles, data[i].EXI_SYMBOL, "1m", timeAgo,true);
+                    API_Candles.binance_Candles(STEP_DB_insertCandles, data[i].EXI_SYMBOL, "1m", true);
                 }else{
-                    API_Candles.binance_Candles(STEP_DB_insertCandles, data[i].EXI_SYMBOL, "1m", timeAgo,false);
+                    API_Candles.binance_Candles(STEP_DB_insertCandles, data[i].EXI_SYMBOL, "1m", false);
                 }
             }
         }
