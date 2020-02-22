@@ -18,6 +18,7 @@ const CTRL_PurgeCandles = require('../controller/backend/purge_controller/CTRL_P
 
 // ALGORITHMS
 const CTRL_AvgVolumeAlgo = require('../controller/backend/algorithm_controller/avg_trade_volume/CTRLAvgTradeVolume');
+const CTRL_EvoLCrypto = require('../controller/backend/algorithm_controller/evol_crypto/CTRL_EvolCrypto');
 
 // INIT TASKS
 // SERVER CHECK TASKS
@@ -33,6 +34,7 @@ let task_PurgeData = null;
 
 // ALGO
 let task_AvgVolumeAlgo = null;
+let task_EvoLCrypto = null;
 
 
 // HANDLER DYNAMIC FUNCTION
@@ -93,7 +95,17 @@ Handler.init_task_PurgeData = function (cron_expression){
 Handler.init_task_AvgVolumeAlgo = function (cron_expression){
     task_AvgVolumeAlgo = cron.schedule(cron_expression, () =>  {
         logger.info('*** CRON SCHEDULER *** -> Average Volume Calculation ... ');
-        CTRL_AvgVolumeAlgo.LoadEvolCrypto();
+        CTRL_AvgVolumeAlgo.LoadAvgTradeVolume();
+
+    }, {
+        scheduled: false
+    });
+};
+
+Handler.init_task_EvoLCrypto = function (cron_expression){
+    task_EvoLCrypto = cron.schedule(cron_expression, () =>  {
+        logger.info('*** CRON SCHEDULER *** -> Crypto Evolution Calculation ... ');
+        CTRL_EvoLCrypto.LoadEvolCrypto();
 
     }, {
         scheduled: false
@@ -123,6 +135,8 @@ Handler.stop_task_PurgeData = function(){task_PurgeData.stop();};
 Handler.start_task_AvgVolumeAlgo = function(){task_AvgVolumeAlgo.start();};
 Handler.stop_task_AvgVolumeAlgo = function(){task_AvgVolumeAlgo.stop();};
 
+Handler.start_task_EvoLCrypto = function(){task_EvoLCrypto.start();};
+Handler.stop_task_EvoLCrypto = function(){task_EvoLCrypto.stop();};
 
 module.exports = {
    initTasksScheduler: function (callback, tasks) {

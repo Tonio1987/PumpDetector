@@ -16,7 +16,7 @@ const ALGO_AvgVolume = require('../../../../algorithm/avg_trade_volume/AvgVolume
 const async = require('async');
 
 module.exports = {
-    LoadEvolCrypto: function() {
+    LoadAvgTradeVolume: function() {
         /*
             CONTROLLER DESCRIPTION
             1 - We load Candles via Binance API

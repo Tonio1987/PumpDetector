@@ -38,7 +38,6 @@ module.exports = {
 
         function STEP_DB_getCandles(err, parameters) {
             if(!err){
-                console.log('parameters : '+parameters.length);
                 DB_Candles.getLastCandle(STEP_DB_getLastEvolCtypto, parameters);
             }else{
                 STEP_finish(err, parameters);
@@ -47,7 +46,6 @@ module.exports = {
 
         function STEP_DB_getLastEvolCtypto(err, lastCandles, parameters) {
             if(!err){
-                console.log('lastCandles : '+lastCandles.length);
                 DB_EvolCtypto.getLastEvolCrypto(STEP_DB_updateLastEvolCrypto, lastCandles, parameters)
             }else{
                 STEP_finish(err, lastCandles);
@@ -56,7 +54,6 @@ module.exports = {
 
         function STEP_DB_updateLastEvolCrypto(err, lastEvolCrypto, lastCandles, parameters) {
             if(!err){
-                console.log('lastEvolCrypto : '+lastEvolCrypto.length);
                 DB_EvolCtypto.updateLastEvolCrypto(STEP_DB_getLastAVGVolume, lastEvolCrypto, lastCandles, parameters)
             }else{
                 STEP_finish(err, lastEvolCrypto);
@@ -72,7 +69,6 @@ module.exports = {
         }
 
         function STEP_ALGO_calculateEvolCrypto(err, lastAvgVolumes, lastEvolCrypto, lastCandles, parameters) {
-            console.log('lastAvgVolumes : '+lastAvgVolumes.length);
             if(!err){
                 ALGO_EvolCrypto.calculate_EvolCrypto(STEP_DB_insertEvolCrypto, lastAvgVolumes, lastEvolCrypto, lastCandles, parameters, now);
             }else{
