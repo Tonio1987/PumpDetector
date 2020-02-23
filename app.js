@@ -91,8 +91,8 @@ TEST ZONE
  */
 
 /*
-const CTRL_TEST = require('./controller/backend/algorithm_controller/evol_crypto/CTRL_EvolCrypto');
-CTRL_TEST.LoadEvolCrypto();
+const CTRL_TEST = require('./controller/backend/notifier_controller/CTRL_Notifier');
+CTRL_TEST.NotifyUsers();
 */
 
 module.exports = app;

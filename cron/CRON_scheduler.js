@@ -15,10 +15,14 @@ const CTRL_Candles = require('../controller/backend/api_controller/CTRL_Candles'
 // PURGE
 const CTRL_PurgePrices = require('../controller/backend/purge_controller/CTRL_PurgePricesr');
 const CTRL_PurgeCandles = require('../controller/backend/purge_controller/CTRL_PurgeCandles');
+const CTRL_PurgeEvolCrypto = require('../controller/backend/purge_controller/CTRL_PurgeEvolCrypto');
 
 // ALGORITHMS
 const CTRL_AvgVolumeAlgo = require('../controller/backend/algorithm_controller/avg_trade_volume/CTRLAvgTradeVolume');
 const CTRL_EvoLCrypto = require('../controller/backend/algorithm_controller/evol_crypto/CTRL_EvolCrypto');
+
+// NOTIFIER
+const CTRL_Notifier = require('../controller/backend/notifier_controller/CTRL_Notifier');
 
 // INIT TASKS
 // SERVER CHECK TASKS
@@ -36,6 +40,8 @@ let task_PurgeData = null;
 let task_AvgVolumeAlgo = null;
 let task_EvoLCrypto = null;
 
+// NOTIFIER
+let task_NotifyUser = null;
 
 // HANDLER DYNAMIC FUNCTION
 let Handler={};
@@ -86,6 +92,7 @@ Handler.init_task_PurgeData = function (cron_expression){
         logger.info('*** CRON SCHEDULER *** -> Purge Data ... ');
         CTRL_PurgePrices.purgeData();
         CTRL_PurgeCandles.purgeData();
+        CTRL_PurgeEvolCrypto.purgeData();
     }, {
         scheduled: false
     });
@@ -106,6 +113,17 @@ Handler.init_task_EvoLCrypto = function (cron_expression){
     task_EvoLCrypto = cron.schedule(cron_expression, () =>  {
         logger.info('*** CRON SCHEDULER *** -> Crypto Evolution Calculation ... ');
         CTRL_EvoLCrypto.LoadEvolCrypto();
+
+    }, {
+        scheduled: false
+    });
+};
+
+// NOTIFIER
+Handler.init_task_NotifyUser = function (cron_expression){
+    task_NotifyUser = cron.schedule(cron_expression, () =>  {
+        logger.info('*** CRON SCHEDULER *** -> Crypto Evolution Calculation ... ');
+        CTRL_Notifier.NotifyUsers();
 
     }, {
         scheduled: false
@@ -137,6 +155,10 @@ Handler.stop_task_AvgVolumeAlgo = function(){task_AvgVolumeAlgo.stop();};
 
 Handler.start_task_EvoLCrypto = function(){task_EvoLCrypto.start();};
 Handler.stop_task_EvoLCrypto = function(){task_EvoLCrypto.stop();};
+
+// NOTIFIER
+Handler.start_task_NotifyUser = function(){task_NotifyUser.start();};
+Handler.stop_task_NotifyUser = function(){task_NotifyUser.stop();};
 
 module.exports = {
    initTasksScheduler: function (callback, tasks) {
