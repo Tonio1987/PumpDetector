@@ -76,13 +76,21 @@ p.send( msg, function( err, result ) {
 loggerjs.info('-------> Routes initialization ...  ');
 
 // CALL ROUTES
-var indexRouter = require('./routes/index');
-var notifyRouter = require('./routes/notify');
+var homeRouter = require('./routes/home');
+var lastNotificationsRouter = require('./routes/last_notifications');
+var notifyRouter = require('./routes/notify_users');
 var settingsRouter = require('./routes/settings');
 
-app.use('/', indexRouter);
+app.use('/', homeRouter);
+app.use('/last_notifications', lastNotificationsRouter);
 app.use('/notify', notifyRouter);
 app.use('/settings', settingsRouter);
+
+// CALL REST API ROUTES
+var REST_LastNotificationsRouter = require('./routes/rest_api/last_notif/LastNotification');
+
+app.use('/GET_last_notifications', REST_LastNotificationsRouter);
+
 
 loggerjs.info('-------> Server started !');
 

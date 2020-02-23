@@ -54,19 +54,19 @@ module.exports = {
                             }
 
 
-                            if(EVOL_VOLUME_ON_PERIOD >= PMT_EVOL_VOLUME_ALERT){
+                            if(Math.abs(EVOL_VOLUME_ON_PERIOD) >= PMT_EVOL_VOLUME_ALERT){
                                 EVOL_VOLUME_ON_PERIOD_STATUS = 'ALERT';
-                            }else  if(EVOL_VOLUME_ON_PERIOD >= PMT_EVOL_VOLUME_WARNING){
+                            }else  if(Math.abs(EVOL_VOLUME_ON_PERIOD) >= PMT_EVOL_VOLUME_WARNING){
                                 EVOL_VOLUME_ON_PERIOD_STATUS = 'WARNING';
                             }else{
                                 EVOL_VOLUME_ON_PERIOD_STATUS = 'R-A-S';
                             }
 
 
-                            if(EVOL_PRICE_ON_PERIOD >= PMT_EVOL_PRICE_ALERT){
+                            if(Math.abs(EVOL_PRICE_ON_PERIOD) >= PMT_EVOL_PRICE_ALERT){
                                 EVOL_PRICE_ON_PERIOD_STATUS = 'ALERT';
                                 EVOL_PRICE_SINCE_WARNING = EVOL_PRICE_ON_PERIOD;
-                            }else if(EVOL_PRICE_ON_PERIOD >= PMT_EVOL_PRICE_WARNING){
+                            }else if(Math.abs(EVOL_PRICE_ON_PERIOD) >= PMT_EVOL_PRICE_WARNING){
                                 EVOL_PRICE_ON_PERIOD_STATUS = 'WARNING';
                                 EVOL_PRICE_SINCE_WARNING = EVOL_PRICE_ON_PERIOD;
                             }else{
@@ -74,9 +74,9 @@ module.exports = {
                                 EVOL_PRICE_SINCE_WARNING = 0;
                             }
 
-                            if(EVOL_NB_TRADES_ON_PERIOD >= PMT_EVOL_NB_TRADE_ALERT){
+                            if(Math.abs(EVOL_NB_TRADES_ON_PERIOD) >= PMT_EVOL_NB_TRADE_ALERT){
                                 EVOL_NB_TRADES_ON_PERIOD_STATUS = 'ALERT';
-                            }else if(EVOL_NB_TRADES_ON_PERIOD >= PMT_EVOL_NB_TRADE_WARNING){
+                            }else if(Math.abs(EVOL_NB_TRADES_ON_PERIOD) >= PMT_EVOL_NB_TRADE_WARNING){
                                 EVOL_NB_TRADES_ON_PERIOD_STATUS = 'WARNING';
                             }else{
                                 EVOL_NB_TRADES_ON_PERIOD_STATUS = 'R-A-S';
@@ -120,23 +120,23 @@ module.exports = {
                                         EVOL_NB_TRADES_ON_PERIOD = 0;
                                     }
 
-                                    if(EVOL_VOLUME_ON_PERIOD >= PMT_EVOL_VOLUME_ALERT){
+                                    if(Math.abs(EVOL_VOLUME_ON_PERIOD) >= PMT_EVOL_VOLUME_ALERT){
                                         EVOL_VOLUME_ON_PERIOD_STATUS = 'ALERT';
-                                    }else if(EVOL_VOLUME_ON_PERIOD >= PMT_EVOL_VOLUME_WARNING){
+                                    }else if(Math.abs(EVOL_VOLUME_ON_PERIOD) >= PMT_EVOL_VOLUME_WARNING){
                                         EVOL_VOLUME_ON_PERIOD_STATUS = 'WARNING';
                                     }else{
                                         EVOL_VOLUME_ON_PERIOD_STATUS = 'R-A-ST';
                                     }
 
-                                    if(EVOL_NB_TRADE_ON_PERIOD >= PMT_EVOL_NB_TRADE_ALERT){
+                                    if(Math.abs(EVOL_NB_TRADE_ON_PERIOD) >= PMT_EVOL_NB_TRADE_ALERT){
                                         EVOL_NB_TRADES_ON_PERIOD_STATUS = 'ALERT';
-                                    }else if(EVOL_NB_TRADE_ON_PERIOD >= PMT_EVOL_NB_TRADE_WARNING){
+                                    }else if(Math.abs(EVOL_NB_TRADE_ON_PERIOD) >= PMT_EVOL_NB_TRADE_WARNING){
                                         EVOL_NB_TRADES_ON_PERIOD_STATUS = 'WARNING';
                                     }else{
                                         EVOL_NB_TRADES_ON_PERIOD_STATUS = 'R-A-S';
                                     }
 
-                                    if(EVOL_PRICE_ON_PERIOD >= PMT_EVOL_PRICE_ALERT){
+                                    if(Math.abs(EVOL_PRICE_ON_PERIOD) >= PMT_EVOL_PRICE_ALERT){
                                         EVOL_PRICE_ON_PERIOD_STATUS = 'ALERT';
                                         if(lastEvolCrypto[k].EVOL_PRICE_ON_PERIOD_STATUS === 'WARNING' || lastEvolCrypto[k].EVOL_PRICE_ON_PERIOD_STATUS === 'ALERT'){
                                             EVOL_PRICE_SINCE_WARNING = ((lastCandles[i].CAD_CLOSE_PRICE - lastEvolCrypto[k].CANDLE_PRICE_SINCE_WARNING)/lastEvolCrypto[k].CANDLE_PRICE_SINCE_WARNING)*100;
@@ -145,7 +145,7 @@ module.exports = {
                                             EVOL_PRICE_SINCE_WARNING = EVOL_PRICE_ON_PERIOD;
                                             CANDLE_PRICE_SINCE_WARNING = lastCandles[i].CAD_CLOSE_PRICE;
                                         }
-                                    }else if(EVOL_PRICE_ON_PERIOD >= PMT_EVOL_PRICE_WARNING){
+                                    }else if(Math.abs(EVOL_PRICE_ON_PERIOD) >= PMT_EVOL_PRICE_WARNING){
                                         EVOL_PRICE_ON_PERIOD_STATUS = 'WARNING';
                                         if(lastEvolCrypto[k].EVOL_PRICE_ON_PERIOD_STATUS === 'WARNING' || lastEvolCrypto[k].EVOL_PRICE_ON_PERIOD_STATUS === 'ALERT'){
                                             EVOL_PRICE_SINCE_WARNING = ((lastCandles[i].CAD_CLOSE_PRICE - lastEvolCrypto[k].CANDLE_PRICE_SINCE_WARNING)/lastEvolCrypto[k].CANDLE_PRICE_SINCE_WARNING)*100;

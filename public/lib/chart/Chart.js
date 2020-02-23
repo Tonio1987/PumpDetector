@@ -12645,7 +12645,7 @@
         }
     });
 
-// INTERNAL: static default options, registered in src/index.js
+// INTERNAL: static default options, registered in src/home.js
     var _defaults = defaultConfig;
     scale_category._defaults = _defaults;
 
@@ -13058,7 +13058,7 @@
         }
     });
 
-// INTERNAL: static default options, registered in src/index.js
+// INTERNAL: static default options, registered in src/home.js
     var _defaults$1 = defaultConfig$1;
     scale_linear._defaults = _defaults$1;
 
@@ -13361,7 +13361,7 @@
         }
     });
 
-// INTERNAL: static default options, registered in src/index.js
+// INTERNAL: static default options, registered in src/home.js
     var _defaults$2 = defaultConfig$2;
     scale_logarithmic._defaults = _defaults$2;
 
@@ -13914,7 +13914,7 @@
         _drawTitle: helpers$1.noop
     });
 
-// INTERNAL: static default options, registered in src/index.js
+// INTERNAL: static default options, registered in src/home.js
     var _defaults$3 = defaultConfig$3;
     scale_radialLinear._defaults = _defaults$3;
 
@@ -14673,7 +14673,7 @@
         }
     });
 
-// INTERNAL: static default options, registered in src/index.js
+// INTERNAL: static default options, registered in src/home.js
     var _defaults$4 = defaultConfig$4;
     scale_time._defaults = _defaults$4;
 

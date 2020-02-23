@@ -5,7 +5,7 @@ var path = require('path');
 /* index of my site */
 router.get('/', function(req, res, next) {
     var path = require('path');
-    res.sendFile(path.resolve('views/notify.html'));
+    res.sendFile(path.resolve('views/last_notif.html'));
 });
 
 module.exports = router;
