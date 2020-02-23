@@ -59,18 +59,25 @@
                     <thead>
                     <tr>
                         <th scope="col">Symbol</th>
-                        <th scope="col">Volume status</th>
-                        <th scope="col">Nb Trades status</th>
-                        <th scope="col">Price status</th>
-
+                        <th scope="col">Volume Status</th>
+                        <th scope="col">Volume Evol</th>
+                        <th scope="col">Nb Trades Status</th>
+                        <th scope="col">Nb Trades Evol</th>
+                        <th scope="col">Price Status</th>
+                        <th scope="col">Price Evol</th>
                     </tr>
                     </thead>
                     <tbody ng-repeat="notif in lastNotifications">
                     <tr>
                         <td>{{notif.EVC_SYMBOL}}</td>
-                        <td ng-class="{'text-red': notif.EVC_EVOL_VOLUME_ON_PERIOD < 0, 'text-green': notif.EVC_EVOL_VOLUME_ON_PERIOD >= 0}">{{notif.EVC_EVOL_VOLUME_ON_PERIOD_STATUS}}  {{notif.EVC_EVOL_VOLUME_ON_PERIOD}} &percnt;</td>
-                        <td ng-class="{'text-red': notif.EVC_EVOL_NB_TRADES_ON_PERIOD < 0, 'text-green': notif.EVC_EVOL_NB_TRADES_ON_PERIOD >= 0}">{{notif.EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS}}  {{notif.EVC_EVOL_NB_TRADES_ON_PERIOD}} &percnt;</td>
-                        <td ng-class="{'text-red': notif.EVC_EVOL_PRICE_ON_PERIOD < 0, 'text-green': notif.EVC_EVOL_PRICE_ON_PERIOD >= 0}">{{notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS}}  {{notif.EVC_EVOL_PRICE_ON_PERIOD}} &percnt;</td>
+                        <td ng-class="{'text-red': notif.EVC_EVOL_VOLUME_ON_PERIOD_STATUS === 'ALERT', 'text-yellow': notif.EVC_EVOL_VOLUME_ON_PERIOD_STATUS === 'WARNING' , 'text-green': notif.EVC_EVOL_VOLUME_ON_PERIOD_STATUS === 'R-A-S'}">{{notif.EVC_EVOL_VOLUME_ON_PERIOD_STATUS}}</td>
+                        <td ng-class="{'text-red': notif.EVC_EVOL_VOLUME_ON_PERIOD < 0, 'text-green': notif.EVC_EVOL_VOLUME_ON_PERIOD >= 0}"> {{notif.EVC_EVOL_VOLUME_ON_PERIOD.toFixed(2)}} &percnt;</td>
+
+                        <td ng-class="{'text-red': notif.EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS === 'ALERT', 'text-yellow': notif.EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS === 'WARNING' , 'text-green': notif.EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS === 'R-A-S'}">{{notif.EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS}}</td>
+                        <td ng-class="{'text-red': notif.EVC_EVOL_NB_TRADES_ON_PERIOD < 0, 'text-green': notif.EVC_EVOL_NB_TRADES_ON_PERIOD >= 0}"> {{notif.EVC_EVOL_NB_TRADES_ON_PERIOD.toFixed(2)}} &percnt;</td>
+
+                        <td ng-class="{'text-red': notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'ALERT', 'text-yellow': notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'WARNING' , 'text-green': notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'R-A-S'}">{{notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS}}</td>
+                        <td ng-class="{'text-red': notif.EVC_EVOL_PRICE_ON_PERIOD < 0, 'text-green': notif.EVC_EVOL_PRICE_ON_PERIOD >= 0}"> {{notif.EVC_EVOL_PRICE_ON_PERIOD.toFixed(2)}} &percnt;</td>
                     </tr>
                     </tbody>
                 </table>

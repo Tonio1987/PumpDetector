@@ -10,3 +10,36 @@ a {
 .page-header{
   text-align: center;
 }
+
+.text-red{
+  color:lightcoral;
+}
+
+.text-green{
+  color:lightgreen;
+}
+
+.text-yellow{
+  color:yellow;
+}
+
+.table-row{
+  cursor:pointer;
+}
+
+.table-left-text {
+  text-align: left;
+}
+
+.table-center-text {
+  text-align: center;
+}
+
+.table-right-text {
+  text-align: right;
+}
+
+.table-black-backg {
+  background-color: black;
+}
+
