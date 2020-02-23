@@ -3,8 +3,6 @@ const db = require('../../db');
 
 moment.locale('fr');
 
-
-
 module.exports = {
     purgeData: function (callback, timeAgo) {
         new Promise(function (resolve, reject) {

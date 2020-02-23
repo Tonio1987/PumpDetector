@@ -27,7 +27,6 @@ module.exports = {
         async.waterfall([
             STEP_DB_deletePreviousAvgVolume,
             STEP_DB_getParameter,
-            STEP_DB_getExchangeInfo,
             STEP_DB_getCandles,
             STEP_DB_insertAvgVolumes,
             STEP_finish
@@ -41,51 +40,35 @@ module.exports = {
 
         function STEP_DB_getParameter(err, data) {
             if(!err){
-                DB_Parameters.getAlgorithmParameters(STEP_DB_getExchangeInfo);
+                DB_Parameters.getAlgorithmParameters(STEP_DB_getCandles);
             }else{
                 STEP_finish(err, data);
             }
         }
 
-        function STEP_DB_getExchangeInfo(err, parameters) {
+        function STEP_DB_getCandles(err, parameters) {
             if(!err){
-                DB_ExchangeInfo.getExchangeInfo(STEP_DB_getCandles, parameters);
+                DB_Candles.getCandles(STEP_DB_insertAvgVolumes, parameters);
             }else{
                 STEP_finish(err, parameters);
             }
         }
 
-        function STEP_DB_getCandles(err, data, parameters) {
+        function STEP_DB_insertAvgVolumes(err, data) {
             if(!err){
-                for(let i=0; i<data.length; i++){
-                    if(i === data.length-1){
-                        DB_Candles.getCandles(STEP_DB_insertAvgVolumes, data[i].EXI_SYMBOL, parameters ,true);
-                    }else{
-                        DB_Candles.getCandles(STEP_DB_insertAvgVolumes, data[i].EXI_SYMBOL, parameters, false);
-                    }
-                }
+                DB_AvgVolumeTrades.insertAvgVolumeTrades(STEP_finish, data, now)
             }else{
                 STEP_finish(err, data);
             }
         }
 
-        function STEP_DB_insertAvgVolumes(err, data, symbol, iter) {
-            if(!err){
-                DB_AvgVolumeTrades.insertAvgVolumeTrades(STEP_finish, data, symbol, now, iter)
-            }else{
-                STEP_finish(err, data, iter);
-            }
-        }
-
-        function STEP_finish(err, data, iter) {
+        function STEP_finish(err, data) {
             if(err){
                 logger.error(err);
                 logger.error('*** CONTROLLER *** ->  Process Calculate Avg Volume ... [ FAILED ]');
             }
+            logger.info('*** CONTROLLER *** ->  Process Calculate Avg Volume ... [ DONE ]');
 
-            if(iter){
-                logger.info('*** CONTROLLER *** ->  Process Calculate Avg Volume ... [ DONE ]');
-            }
         }
     }
 };

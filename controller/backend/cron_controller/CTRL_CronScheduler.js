@@ -27,7 +27,7 @@ module.exports = {
             if(!err){
                 CRON_scheduler.initTasksScheduler(STEP_finish, tasks);
             }else{
-                STEP_finish(err, null);
+                STEP_finish(err, tasks);
             }
         }
 

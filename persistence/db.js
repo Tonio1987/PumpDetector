@@ -1,14 +1,14 @@
 const mysql = require('mysql');
 
 const pool = mysql.createPool({
-    connectionLimit : 2000,
+    connectionLimit : 200,
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE
 });
 
-exports.connection = {
+module.exports.connection = {
     query: function () {
         var queryArgs = Array.prototype.slice.call(arguments),
             events = [],
