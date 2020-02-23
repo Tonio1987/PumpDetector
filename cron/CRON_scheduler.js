@@ -122,7 +122,7 @@ Handler.init_task_EvoLCrypto = function (cron_expression){
 // NOTIFIER
 Handler.init_task_NotifyUser = function (cron_expression){
     task_NotifyUser = cron.schedule(cron_expression, () =>  {
-        logger.info('*** CRON SCHEDULER *** -> Crypto Evolution Calculation ... ');
+        logger.info('*** CRON SCHEDULER *** -> Notifying Users  ... ');
         CTRL_Notifier.NotifyUsers();
 
     }, {

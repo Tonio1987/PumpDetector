@@ -1,33 +1,21 @@
 const moment = require('moment');
-const  mysql = require('mysql');
+const db = require('../../../db');
+
 
 moment.locale('fr');
 
 module.exports = {
     getAlgorithmParameters: function (callback) {
         new Promise(function (resolve, reject) {
-
-            let con = mysql.createConnection({
-                host: process.env.MYSQL_HOST,
-                user: process.env.MYSQL_USER,
-                password: process.env.MYSQL_PASSWORD,
-                database: process.env.MYSQL_DATABASE
-            });
-
-            con.connect(function(err) {
-                if (err){
+            let PMT_ALGO = ["PUMP_DETECTOR"];
+            let sql = 'SELECT PMT_NAME, PMT_VALUE FROM TR_PARAMETER_PMT WHERE PMT_ALGO = ?';
+            db.connection.query(sql, [PMT_ALGO], function (err, result) {
+                if (err) {
                     reject(err);
                 }
-                let PMT_ALGO = ["PUMP_DETECTOR"];
-                let sql = 'SELECT PMT_NAME, PMT_VALUE FROM TR_PARAMETER_PMT WHERE PMT_ALGO = ?';
-                con.query(sql, [PMT_ALGO],  function (err, result, fields) {
-                    if (err){
-                        reject(err);
-                    }
-                    con.destroy();
-                    resolve(result);
-                });
+                resolve(result);
             });
+
         }).then(function(data){
             callback(null, data);
         }).catch(function(err) {
