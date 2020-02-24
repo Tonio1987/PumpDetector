@@ -7,7 +7,7 @@ module.exports = {
     getSettings: function (callback) {
         new Promise(function (resolve, reject) {
 
-            let sql = 'SELECT PMT_ID, PMT_ALGO, PMT_NAME, PMT_DESCR, PMT_VALUE FROM TR_PARAMETER_PMT ORDER BY PMT_ALGO';
+            let sql = 'SELECT PMT_ID, PMT_ALGO, PMT_NAME, PMT_DESCR, PMT_VALUE FROM TR_PARAMETER_PMT ORDER BY PMT_ALGO, PMT_NAME';
 
             db.connection.query(sql, [], function (err, result) {
                 if (err) {
