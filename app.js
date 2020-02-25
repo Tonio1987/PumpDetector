@@ -89,7 +89,7 @@ var REST_LastNotificationsRouter = require('./routes/rest_api/last_notif/LastNot
 var REST_settings = require('./routes/rest_api/settings/list_Settings');
 var REST_editSettings = require('./routes/rest_api/settings/edit_Settings');
 
-app.use('/GET_last_notifications', REST_LastNotificationsRouter);
+app.use('/POST_last_notifications', REST_LastNotificationsRouter);
 app.use('/GET_settings', REST_settings);
 app.use('/POST_settings', REST_editSettings);
 

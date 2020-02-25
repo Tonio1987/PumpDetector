@@ -10,8 +10,8 @@ module.exports = {
             // Nothing to do here
         });
 
-        function STEP_DB_getLast_Notifications(err, data) {
-            DB_Last_Notifications.getLast_Notifications(STEP_finish);
+        function STEP_DB_getLast_Notifications() {
+            DB_Last_Notifications.getLast_Notifications(STEP_finish, req.body.filter);
         }
 
         function STEP_finish(err, data) {

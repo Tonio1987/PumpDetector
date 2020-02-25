@@ -51,7 +51,16 @@
         <div class="col-9">
             <div ng-controller="Ctrl_LastNotifications" class="text-center">
                 <br />
-                <h4>Last Notifications</h4>
+                <h4>Last Notifications</h4><br />
+                <label>Select quote asset :</label>
+                <input type="radio" value="ALL" ng-model="asset.quote" ng-click="changeQuoteAsset('ALL')"> ALL
+                <input type="radio" value="BTC" ng-model="asset.quote" ng-click="changeQuoteAsset('BTC')"> BTC
+                <input type="radio" value="ETH" ng-model="asset.quote" ng-click="changeQuoteAsset('ETH')"> ETH
+                <input type="radio" value="BNB" ng-model="asset.quote" ng-click="changeQuoteAsset('BNB')"> BNB
+                <input type="radio" value="SDT" ng-model="asset.quote" ng-click="changeQuoteAsset('SDT')"> USDT
+                <input type="radio" value="SDC" ng-model="asset.quote" ng-click="changeQuoteAsset('SDC')"> USDC
+                <input type="radio" value="USD" ng-model="asset.quote" ng-click="changeQuoteAsset('USD')"> USD
+                <br /><br />
                 <table class="table table-striped table-dark table-center-text table-sm table-hover">
                     <thead>
                     <tr>
@@ -88,24 +97,49 @@
     var app = angular.module('myApp', []);
 
     app.controller('Ctrl_LastNotifications', function($http, $scope, $interval) {
-        $http.get("/GET_last_notifications")
-            .then(function(response) {
-                console.log(response.data);
-                $scope.lastNotifications = response.data;
-            })
-            .catch(function(response) {
-                $scope.lastNotifications = 'ERROR';
-            });
+        $scope.asset = {
+            quote: 'BTC'
+        };
+
+        let data = {filter:  $scope.asset.quote};
+        $http({
+            method: 'POST',
+            url: '/POST_last_notifications',
+            headers: {'Content-Type': 'application/json'},
+            data: data
+        }).then(function (response) {
+            $scope.lastNotifications = response.data;
+        }).catch(function(response) {
+            $scope.lastNotifications = 'Erreur';
+        });
         $interval(function() {
-            $http.get("/GET_last_notifications")
-                .then(function(response) {
-                    console.log(response.data);
-                    $scope.lastNotifications = response.data;
-                })
-                .catch(function(response) {
-                    $scope.lastNotifications = 'ERROR';
-                });
+            let data = {filter:  $scope.asset.quote};
+            $http({
+                method: 'POST',
+                url: '/POST_last_notifications',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            }).then(function (response) {
+                $scope.lastNotifications = response.data;
+            }).catch(function(response) {
+                $scope.lastNotifications = 'Erreur';
+            });
         },60000);
+
+        $scope.changeQuoteAsset = function(quote){
+            $scope.asset.quote = quote;
+            let data = {filter:  $scope.asset.quote};
+            $http({
+                method: 'POST',
+                url: '/POST_last_notifications',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            }).then(function (response) {
+                $scope.lastNotifications = response.data;
+            }).catch(function(response) {
+                $scope.lastNotifications = 'Erreur';
+            });
+        }
     });
 
 

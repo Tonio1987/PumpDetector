@@ -17,7 +17,7 @@ function renderResult(err, data, req, res, next){
     }
 }
 
-router.get('/', function(req, res, next) {
+router.post('/', function(req, res, next) {
     call_CTRL_getLast_Notifications(req, res, next);
 });
 
