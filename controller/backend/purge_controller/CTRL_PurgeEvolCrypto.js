@@ -10,7 +10,8 @@ const DB_EvolCrypto = require('../../../persistence/backend/purge/DB_EvolCrypto'
 
 module.exports = {
     purgeData: function () {
-        let timeAgo = moment(new Date()).add(-2, 'days').valueOf();
+        logger.warn('*** CONTROLLER *** ->  Process Purge Evol Cryptos data ... [ RUNNING ]');
+        let timeAgo = moment(new Date()).add(-1, 'days').format();
 
         async.waterfall([
             STEP_DB_purgeDate,

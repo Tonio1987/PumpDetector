@@ -6,8 +6,9 @@ moment.locale('fr');
 module.exports = {
     purgeData: function (callback, timeAgo) {
         new Promise(function (resolve, reject) {
-            let sql = 'DELETE FROM T_API_CANDLES_CAD WHERE CAD_DATETIME < '+timeAgo;
-            db.connection.query(sql, [], function (err, result) {
+            let delSince = [timeAgo];
+            let sql = 'DELETE FROM T_API_CANDLE_CAD WHERE CAD_DATETIME < ? ';
+            db.connection.query(sql, [delSince], function (err, result) {
                 if (err) {
                     reject(err);
                 }

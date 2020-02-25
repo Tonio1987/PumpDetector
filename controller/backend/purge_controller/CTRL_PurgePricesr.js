@@ -10,8 +10,8 @@ const DB_Prices = require('../../../persistence/backend/purge/DB_Prices');
 
 module.exports = {
     purgeData: function () {
-        let timeAgo = moment(new Date()).add(-2, 'days').valueOf();
-
+        let timeAgo = moment(new Date()).add(-1, 'days').format();
+        logger.warn('*** CONTROLLER *** ->  Process Purge Prices data ... [ RUNNING ]');
         async.waterfall([
             STEP_DB_purgeDate,
             STEP_finish

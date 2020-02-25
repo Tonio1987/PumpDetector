@@ -6,8 +6,9 @@ moment.locale('fr');
 module.exports = {
     purgeData: function (callback, timeAgo) {
         new Promise(function (resolve, reject) {
-            let sql = 'DELETE FROM T_ALGO_EVOL_CRYPTO_EVC WHERE EVC_DATETIME < '+timeAgo;
-            db.connection.query(sql, [], function (err, result) {
+            let delSince = [timeAgo];
+            let sql = 'DELETE FROM T_ALGO_EVOL_CRYPTO_EVC WHERE EVC_DATETIME < ?';
+            db.connection.query(sql, [delSince], function (err, result) {
                 if (err) {
                     reject(err);
                 }
