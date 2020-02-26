@@ -58,8 +58,9 @@
                 <thead>
                 <tr>
                     <th scope="col-1">Symbol</th>
-                    <th scope="col-1">BAse asset</th>
+                    <th scope="col-1">Base asset</th>
                     <th scope="col-5">Quote asset</th>
+                    <th scope="col-5">Asset Status</th>
                     <th scope="col-1">Active</th>
                 </tr>
                 </thead>
@@ -68,6 +69,7 @@
                         <td>{{pair.EXI_SYMBOL}}</td>
                         <td>{{pair.EXI_BASE_ASSET}}</td>
                         <td>{{pair.EXI_QUOTE_ASSET}}</td>
+                        <td>{{pair.EXI_STATUS}}</td>
                         <td>
                             <div ng-if="pair.EXI_ACTIVATED == 1">
                                 <button ng-attr-id="pair.EXI_ID" type="button" class="btn btn-danger btn-sm" ng-click="changePairStatus(pair.EXI_ID, pair.EXI_ACTIVATED)">D&eacute;sactiver</button>

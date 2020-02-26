@@ -7,7 +7,7 @@ moment.locale('fr');
 module.exports = {
     getExchangeInfo: function (callback) {
         new Promise(function (resolve, reject) {
-            let sql = 'SELECT EXI_ID, EXI_SYMBOL, EXI_BASE_ASSET, EXI_QUOTE_ASSET, EXI_ACTIVATED FROM T_API_EXCHANGE_INFO_EXI ORDER BY EXI_QUOTE_ASSET ASC';
+            let sql = 'SELECT EXI_ID, EXI_SYMBOL, EXI_BASE_ASSET, EXI_QUOTE_ASSET, EXI_STATUS, EXI_ACTIVATED FROM T_API_EXCHANGE_INFO_EXI ORDER BY EXI_QUOTE_ASSET ASC';
             db.connection.query(sql, [], function (err, result) {
                 if (err) {
                     reject(err);
