@@ -27,6 +27,7 @@ module.exports = {
 
             var EVOL_PRICE_SINCE_WARNING = 0;
             var NB_PERIOD = 0;
+            var FOLLOW = false;
             var CANDLE_PRICE_SINCE_WARNING = 0;
 
             var EVOL_VOLUME_ON_PERIOD_STATUS = 'R-A-S';
@@ -56,46 +57,55 @@ module.exports = {
 
                                     if(Math.abs(EVOL_VOLUME_ON_PERIOD) >= PMT_EVOL_VOLUME_ALERT){
                                         EVOL_VOLUME_ON_PERIOD_STATUS = 'ALERT';
+                                        FOLLOW = true;
                                     }else if(Math.abs(EVOL_VOLUME_ON_PERIOD) >= PMT_EVOL_VOLUME_WARNING){
                                         EVOL_VOLUME_ON_PERIOD_STATUS = 'WARNING';
+                                        FOLLOW = true;
                                     }else{
                                         EVOL_VOLUME_ON_PERIOD_STATUS = 'R-A-S';
                                     }
 
                                     if(Math.abs(EVOL_NB_TRADES_ON_PERIOD) >= PMT_EVOL_NB_TRADE_ALERT){
                                         EVOL_NB_TRADES_ON_PERIOD_STATUS = 'ALERT';
+                                        FOLLOW = true;
                                     }else if(Math.abs(EVOL_NB_TRADES_ON_PERIOD) >= PMT_EVOL_NB_TRADE_WARNING){
                                         EVOL_NB_TRADES_ON_PERIOD_STATUS = 'WARNING';
+                                        FOLLOW = true;
                                     }else{
                                         EVOL_NB_TRADES_ON_PERIOD_STATUS = 'R-A-S';
                                     }
 
                                     if(Math.abs(EVOL_PRICE_ON_PERIOD) >= PMT_EVOL_PRICE_ALERT){
                                         EVOL_PRICE_ON_PERIOD_STATUS = 'ALERT';
+                                        FOLLOW = true;
                                         if(lastEvolCrypto[k].EVOL_PRICE_ON_PERIOD_STATUS === 'WARNING' || lastEvolCrypto[k].EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'ALERT'){
                                             EVOL_PRICE_SINCE_WARNING = ((lastCandles[i].CAD_CLOSE_PRICE - lastEvolCrypto[k].EVC_CANDLE_PRICE_SINCE_WARNING)/lastEvolCrypto[k].EVC_CANDLE_PRICE_SINCE_WARNING)*100;
                                             CANDLE_PRICE_SINCE_WARNING = lastEvolCrypto[k].EVC_CANDLE_PRICE_SINCE_WARNING;
-                                            NB_PERIOD = lastEvolCrypto[k].EVC_NB_PERIOD + 1;
+
                                         }else{
                                             EVOL_PRICE_SINCE_WARNING = EVOL_PRICE_ON_PERIOD;
                                             CANDLE_PRICE_SINCE_WARNING = lastCandles[i].CAD_CLOSE_PRICE;
-                                            NB_PERIOD = 1;
                                         }
                                     }else if(Math.abs(EVOL_PRICE_ON_PERIOD) >= PMT_EVOL_PRICE_WARNING){
                                         EVOL_PRICE_ON_PERIOD_STATUS = 'WARNING';
+                                        FOLLOW = true;
                                         if(lastEvolCrypto[k].EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'WARNING' || lastEvolCrypto[k].EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'ALERT'){
                                             EVOL_PRICE_SINCE_WARNING = ((lastCandles[i].CAD_CLOSE_PRICE - lastEvolCrypto[k].EVC_CANDLE_PRICE_SINCE_WARNING)/lastEvolCrypto[k].EVC_CANDLE_PRICE_SINCE_WARNING)*100;
                                             CANDLE_PRICE_SINCE_WARNING = lastEvolCrypto[k].EVC_CANDLE_PRICE_SINCE_WARNING;
-                                            NB_PERIOD = lastEvolCrypto[k].EVC_NB_PERIOD + 1;
                                         }else{
                                             EVOL_PRICE_SINCE_WARNING = EVOL_PRICE_ON_PERIOD;
                                             CANDLE_PRICE_SINCE_WARNING = lastCandles[i].CAD_CLOSE_PRICE;
-                                            NB_PERIOD = 1;
                                         }
                                     }else{
                                         EVOL_PRICE_ON_PERIOD_STATUS = 'R-A-S';
                                         EVOL_PRICE_SINCE_WARNING = 0;
                                         CANDLE_PRICE_SINCE_WARNING = 0;
+
+                                    }
+                                    if(FOLLOW === true){
+                                        NB_PERIOD = lastEvolCrypto[k].EVC_NB_PERIOD + 1;
+                                        FOLLOW = false;
+                                    }else{
                                         NB_PERIOD = 0;
                                     }
 
