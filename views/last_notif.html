@@ -54,7 +54,7 @@
         <div class="col-9">
             <div ng-controller="Ctrl_LastNotifications" class="text-center">
                 <br />
-                <h4>Last Notifications</h4><br />
+                <h4>Last Notifications : {{lastUpdateAt}}</h4><br />
                 <label>Select quote asset :</label>
                 <input type="radio" value="ALL" ng-model="asset.quote" ng-click="changeQuoteAsset('ALL')"> ALL
                 <input type="radio" value="BTC" ng-model="asset.quote" ng-click="changeQuoteAsset('BTC')"> BTC
@@ -114,6 +114,9 @@
             data: data
         }).then(function (response) {
             $scope.lastNotifications = response.data;
+            if($scope.lastNotifications.length > 0){
+                $scope.lastUpdateAt = $scope.lastNotifications[0].EVC_DATETIME;
+            }
         }).catch(function(response) {
             $scope.lastNotifications = 'Erreur';
         });
