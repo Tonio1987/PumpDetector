@@ -23,7 +23,7 @@ module.exports = {
     },
     insertExchangeInfo: function (callback, data) {
         new Promise(function (resolve, reject) {
-            let sql = "INSERT INTO T_API_EXCHANGE_INFO_EXI (EXI_ID, EXI_DATETIME, EXI_SYMBOL, EXI_STATUS, EXI_BASE_ASSET, EXI_BASE_ASSET_PRECISION, EXI_QUOTE_ASSET, EXI_QUOTE_PRECISION, EXI_ICEBERG_ALLOWED) VALUES ?";
+            let sql = "INSERT INTO T_API_EXCHANGE_INFO_EXI (EXI_ID, EXI_DATETIME, EXI_SYMBOL, EXI_STATUS, EXI_BASE_ASSET, EXI_BASE_ASSET_PRECISION, EXI_QUOTE_ASSET, EXI_QUOTE_PRECISION, EXI_ICEBERG_ALLOWED, EXI_ACTIVATED) VALUES ?";
             let id = uuidv1();
             let datetime = moment().format();
             let line = [];
@@ -38,7 +38,8 @@ module.exports = {
                     data.symbols[i].baseAssetPrecision,
                     data.symbols[i].quoteAsset,
                     data.symbols[i].quotePrecision,
-                    data.symbols[i].icebergAllowed
+                    data.symbols[i].icebergAllowed,
+                    1
                 ];
                 values.push(line);
             }
