@@ -129,6 +129,9 @@
                 data: data
             }).then(function (response) {
                 $scope.lastNotifications = response.data;
+                if($scope.lastNotifications.length > 0){
+                    $scope.lastUpdateAt = $scope.lastNotifications[0].EVC_DATETIME;
+                }
             }).catch(function(response) {
                 $scope.lastNotifications = 'Erreur';
             });
@@ -144,6 +147,9 @@
                 data: data
             }).then(function (response) {
                 $scope.lastNotifications = response.data;
+                if($scope.lastNotifications.length > 0){
+                    $scope.lastUpdateAt = $scope.lastNotifications[0].EVC_DATETIME;
+                }
             }).catch(function(response) {
                 $scope.lastNotifications = 'Erreur';
             });
