@@ -11,30 +11,116 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Listage des données de la table pump_detector.TR_PARAMETER_PMT : ~7 rows (environ)
-/*!40000 ALTER TABLE `TR_PARAMETER_PMT` DISABLE KEYS */;
-INSERT INTO `TR_PARAMETER_PMT` (`PMT_ID`, `PMT_ALGO`, `PMT_TYPE`, `PMT_NAME`, `PMT_DESCR`, `PMT_VALUE`, `PMT_VALUE2`) VALUES
-	(2, 'PUMP_DETECTOR', 'WARNING', 'EVOL_VOLUME_WARNING', '% Evolution du volume déclenchant un warning', 2000.000000000, NULL),
-	(1, 'PUMP_DETECTOR', 'WARNING', 'EVOL_PRICE_WARNING', '% Evolution du prix déclenchant un warning', 0.500000000, NULL),
-	(3, 'PUMP_DETECTOR', 'ALERT', 'EVOL_PRICE_ALERT', '% Evolution du prix déclenchant une alerte', 1.000000000, NULL),
-	(4, 'PUMP_DETECTOR', 'ALERT', 'EVOL_VOLUME_ALERT', '% Evolution du volume déclenchant une alerte', 3000.000000000, NULL),
-	(5, 'EVOL_INDICATOR', NULL, 'NB_PERIOD_AVG_COMPARE', 'Nombre de périodes à prendre en compte pour le calcul de la moyenne des volumes et nombres de trades - MAX 2880', 60.000000000, NULL),
-	(6, 'PUMP_DETECTOR', 'WARNING', 'EVOL_NB_TRADE_WARNING', '% Evolution du nombre de trades déclenchant un warning', 2000.000000000, NULL),
-	(7, 'PUMP_DETECTOR', 'ALERT', 'EVOL_NB_TRADE_ALERT', '% Evolution du nombre de trades déclenchant une alerte', 3000.000000000, NULL);
-/*!40000 ALTER TABLE `TR_PARAMETER_PMT` ENABLE KEYS */;
+-- Listage de la structure de la table pump_detector_test. TR_PARAMETER_PMT
+CREATE TABLE IF NOT EXISTS `TR_PARAMETER_PMT` (
+  `PMT_ID` int DEFAULT NULL,
+  `PMT_ALGO` varchar(100) DEFAULT NULL,
+  `PMT_TYPE` varchar(100) DEFAULT NULL,
+  `PMT_NAME` varchar(100) DEFAULT NULL,
+  `PMT_DESCR` varchar(300) DEFAULT NULL,
+  `PMT_VALUE` decimal(22,9) DEFAULT NULL,
+  `PMT_VALUE2` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table pump_detector.TS_CRON_TASK_CRT : ~8 rows (environ)
-/*!40000 ALTER TABLE `TS_CRON_TASK_CRT` DISABLE KEYS */;
-INSERT INTO `TS_CRON_TASK_CRT` (`CRT_ID`, `CRT_NAME`, `CRT_CRON_EXPR`, `CRT_ACTIVE`) VALUES
-	(1, 'task_ServerOk', '0 */5 * * * *', 1),
-	(2, 'task_LoadExchangeInfo', '0 */1 * * * *', 0),
-	(3, 'task_LoadPrices', '0 */1 * * * *', 1),
-	(4, 'task_LoadCandles', '2 */1 * * * *', 1),
-	(5, 'task_PurgeData', '45 13 */1 * * *', 1),
-	(6, 'task_AvgVolumeAlgo', '18 */1 * * * *', 1),
-	(7, 'task_EvoLCrypto', '30 */1 * * * *', 1),
-	(8, 'task_NotifyUser', '40 */1 * * * *', 1);
-/*!40000 ALTER TABLE `TS_CRON_TASK_CRT` ENABLE KEYS */;
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table pump_detector_test. TS_CRON_TASK_CRT
+CREATE TABLE IF NOT EXISTS `TS_CRON_TASK_CRT` (
+  `CRT_ID` int DEFAULT NULL,
+  `CRT_NAME` varchar(100) DEFAULT NULL,
+  `CRT_CRON_EXPR` varchar(50) DEFAULT NULL,
+  `CRT_ACTIVE` tinyint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table pump_detector_test. T_ALGO_AVG_VOL_TRADES_AVT
+CREATE TABLE IF NOT EXISTS `T_ALGO_AVG_VOL_TRADES_AVT` (
+  `AVT_ID` varchar(50) DEFAULT NULL,
+  `AVT_DATETIME` datetime DEFAULT NULL,
+  `AVT_SYMBOL` varchar(15) DEFAULT NULL,
+  `AVT_AVG_VOLUME_TRADE` decimal(22,9) DEFAULT NULL,
+  `AVT_NB_TRADES` decimal(22,9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table pump_detector_test. T_ALGO_EVOL_CRYPTO_EVC
+CREATE TABLE IF NOT EXISTS `T_ALGO_EVOL_CRYPTO_EVC` (
+  `EVC_ID` varchar(50) DEFAULT NULL,
+  `EVC_DATETIME` datetime DEFAULT NULL,
+  `EVC_SYMBOL` varchar(15) DEFAULT NULL,
+  `EVC_EVOL_VOLUME_ON_PERIOD` decimal(22,9) DEFAULT NULL,
+  `EVC_EVOL_VOLUME_ON_PERIOD_STATUS` varchar(10) DEFAULT NULL,
+  `EVC_EVOL_PRICE_ON_PERIOD` decimal(22,9) DEFAULT NULL,
+  `EVC_EVOL_PRICE_ON_PERIOD_STATUS` varchar(10) DEFAULT NULL,
+  `EVC_EVOL_NB_TRADES_ON_PERIOD` decimal(22,9) DEFAULT NULL,
+  `EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS` varchar(10) DEFAULT NULL,
+  `EVC_EVOL_PRICE_SINCE_WARNING` decimal(22,9) DEFAULT NULL,
+  `EVC_CANDLE_PRICE_SINCE_WARNING` decimal(22,9) DEFAULT NULL,
+  `EVC_NB_PERIOD` int DEFAULT NULL,
+  `EVC_LAST_INSERT` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table pump_detector_test. T_API_CANDLE_CAD
+CREATE TABLE IF NOT EXISTS `T_API_CANDLE_CAD` (
+  `CAD_ID` varchar(50) DEFAULT NULL,
+  `CAD_DATETIME` datetime DEFAULT NULL,
+  `CAD_SYMBOL` varchar(15) DEFAULT NULL,
+  `CAD_OPEN_TIME` double DEFAULT NULL,
+  `CAD_OPEN_DATETIME` datetime DEFAULT NULL,
+  `CAD_OPEN_PRICE` decimal(22,9) DEFAULT NULL,
+  `CAD_HIGH_PRICE` decimal(22,9) DEFAULT NULL,
+  `CAD_LOW_PRICE` decimal(22,9) DEFAULT NULL,
+  `CAD_CLOSE_PRICE` decimal(22,9) DEFAULT NULL,
+  `CAD_VOLUME` decimal(22,9) DEFAULT NULL,
+  `CAD_CLOSE_TIME` double DEFAULT NULL,
+  `CAD_CLOSE_DATETIME` datetime DEFAULT NULL,
+  `CAD_QUOTE_ASSET_VOLUME` decimal(22,9) DEFAULT NULL,
+  `CAD_NUMBER_OF_TRADES` int DEFAULT NULL,
+  `CAD_TAKER_BUY_BASE_ASSET_VOLUME` decimal(22,9) DEFAULT NULL,
+  `CAD_TAKER_BUY_QUOTE_ASSET_VOLUME` decimal(22,9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table pump_detector_test. T_API_EXCHANGE_INFO_EXI
+CREATE TABLE IF NOT EXISTS `T_API_EXCHANGE_INFO_EXI` (
+  `EXI_ID` varchar(50) DEFAULT NULL,
+  `EXI_DATETIME` datetime DEFAULT NULL,
+  `EXI_SYMBOL` varchar(15) DEFAULT NULL,
+  `EXI_STATUS` varchar(50) DEFAULT NULL,
+  `EXI_BASE_ASSET` varchar(15) DEFAULT NULL,
+  `EXI_BASE_ASSET_PRECISION` int DEFAULT NULL,
+  `EXI_QUOTE_ASSET` varchar(15) DEFAULT NULL,
+  `EXI_QUOTE_PRECISION` int DEFAULT NULL,
+  `EXI_ICEBERG_ALLOWED` tinyint DEFAULT NULL,
+  `EXI_ACTIVATED` tinyint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table pump_detector_test. T_API_PRICE_PRI
+CREATE TABLE IF NOT EXISTS `T_API_PRICE_PRI` (
+  `PRI_ID` varchar(50) DEFAULT NULL,
+  `PRI_DATETIME` datetime DEFAULT NULL,
+  `PRI_SYMBOL` varchar(15) DEFAULT NULL,
+  `PRI_PRICE` decimal(22,9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de la table pump_detector_test. T_NOTIFICATIONS_NOT
+CREATE TABLE IF NOT EXISTS `T_NOTIFICATIONS_NOT` (
+  `NOT_ID` varchar(50) DEFAULT NULL,
+  `NOT_DATETIME` datetime DEFAULT NULL,
+  `NOT_TEXT` text,
+  `NOT_LAST_NOTIFICATION` tinyint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

@@ -5,6 +5,7 @@ logger.level = 'debug';
 
 const DB_EvolCrypto = require('../../../persistence/backend/notifier/DB_EvolCtypto');
 const DB_Notifications = require('../../../persistence/backend/notifier/DB_Notifications');
+const DB_ExchangeInfo = require('../../../persistence/backend/notifier/DB_ExchangeInfo');
 const ALGO_Notifier = require('../../../algorithm/notifier/Notifier_Algorithm');
 const async = require('async');
 
@@ -19,6 +20,7 @@ module.exports = {
         async.waterfall([
             STEP_DB_updateNotifications,
             STEP_DB_getEvolCryptoAlertOrWarning,
+            STEP_DB_getExchangeInfo,
             STEP_ALGO_prepareNotifications,
             STEP_DB_insertNotifications,
             STEP_finish
@@ -32,15 +34,19 @@ module.exports = {
 
         function STEP_DB_getEvolCryptoAlertOrWarning(err, data) {
             if(!err){
-                DB_EvolCrypto.getLastEvolCrypto(STEP_ALGO_prepareNotifications)
+                DB_EvolCrypto.getLastEvolCrypto(STEP_DB_getExchangeInfo)
             }else{
                 STEP_finish(err, data);
             }
         }
 
-        function STEP_ALGO_prepareNotifications(err, EvolCrypto) {
+        function STEP_DB_getExchangeInfo(err, EvolCrypto) {
+            DB_ExchangeInfo.getExchangeInfo(STEP_ALGO_prepareNotifications, EvolCrypto);
+        }
+
+        function STEP_ALGO_prepareNotifications(err, ExchangeInfo, EvolCrypto) {
             if(!err){
-                ALGO_Notifier.prepare_Notification(STEP_DB_insertNotifications, EvolCrypto);
+                ALGO_Notifier.prepare_Notification(STEP_DB_insertNotifications, EvolCrypto, ExchangeInfo);
             }else{
                 STEP_finish(err, EvolCrypto);
             }

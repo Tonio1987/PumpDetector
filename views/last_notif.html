@@ -34,6 +34,9 @@
         <a class="nav-link active"  href="/last_notifications">Last Notifications</a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="/pairs">Pairs</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="/settings">Setings</a>
     </li>
 </ul>
@@ -71,6 +74,7 @@
                         <th scope="col">Nb Trades Evol</th>
                         <th scope="col">Price Status</th>
                         <th scope="col">Price Evol</th>
+                        <th scope="col">Nb Periods</th>
                     </tr>
                     </thead>
                     <tbody ng-repeat="notif in lastNotifications">
@@ -84,6 +88,7 @@
 
                         <td ng-class="{'text-red': notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'ALERT', 'text-yellow': notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'WARNING' , 'text-green': notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'R-A-S'}">{{notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS}}</td>
                         <td ng-class="{'text-red': notif.EVC_EVOL_PRICE_ON_PERIOD < 0, 'text-green': notif.EVC_EVOL_PRICE_ON_PERIOD >= 0}"> {{notif.EVC_EVOL_PRICE_ON_PERIOD.toFixed(2)}} &percnt;</td>
+                        <td> {{notif.EVC_NB_PERIOD}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -124,7 +129,7 @@
             }).catch(function(response) {
                 $scope.lastNotifications = 'Erreur';
             });
-        },60000);
+        },20000);
 
         $scope.changeQuoteAsset = function(quote){
             $scope.asset.quote = quote;
@@ -157,7 +162,7 @@
 
             // init
             if($scope.remainingTimeBeforeRefresh === 0 || !$scope.remainingTimeBeforeRefresh){
-                $scope.remainingTimeBeforeRefresh = 60;
+                $scope.remainingTimeBeforeRefresh = 20;
             }
             $scope.remainingTimeBeforeRefresh--;
 

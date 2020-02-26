@@ -78,21 +78,26 @@ loggerjs.info('-------> Routes initialization ...  ');
 // CALL ROUTES
 var homeRouter = require('./routes/home');
 var lastNotificationsRouter = require('./routes/last_notifications');
+var pairsRouter = require('./routes/pairs');
 var settingsRouter = require('./routes/settings');
 
 app.use('/', homeRouter);
 app.use('/last_notifications', lastNotificationsRouter);
+app.use('/pairs', pairsRouter);
 app.use('/settings', settingsRouter);
 
 // CALL REST API ROUTES
 var REST_LastNotificationsRouter = require('./routes/rest_api/last_notif/LastNotification');
 var REST_settings = require('./routes/rest_api/settings/list_Settings');
 var REST_editSettings = require('./routes/rest_api/settings/edit_Settings');
+var REST_pairs = require('./routes/rest_api/pairs/list_Pairs');
+var REST_editPair = require('./routes/rest_api/pairs/edit_Pair');
 
 app.use('/POST_last_notifications', REST_LastNotificationsRouter);
 app.use('/GET_settings', REST_settings);
 app.use('/POST_settings', REST_editSettings);
-
+app.use('/GET_pair_listPairs', REST_pairs);
+app.use('/POST_pair_changePairStatus', REST_editPair);
 
 loggerjs.info('-------> Server started !');
 
