@@ -68,7 +68,7 @@ let msg = {
 
 p.send( msg, function( err, result ) {
   if ( err ) {
-    throw(err);
+    logger.error('*** CONTROLLER *** ->  Push Notifications ... [ FAILED ]');
   }
 });
 
