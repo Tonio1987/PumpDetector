@@ -79,7 +79,9 @@ module.exports = {
                                 notification = notification+"EVOLUTION : "+EvolCrypto[i].EVC_EVOL_NB_TRADES_ON_PERIOD.toFixed(2)+" %\n";
                             }
                             notification = notification+"-------------------------------\n\n"
-                            count++;
+                            if(ExchangeInfo[j].EXI_SYMBOL.substr(ExchangeInfo[j].EXI_SYMBOL.length-3) === 'BTC'){
+                                count++;
+                            }
                         }
                     }
                 }
