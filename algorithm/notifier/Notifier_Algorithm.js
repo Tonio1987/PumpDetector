@@ -92,7 +92,7 @@ module.exports = {
                 resolve(res);
             }else{
                 let res = {notification: null, nbNotif: 0};
-                resolve(null);
+                resolve(res);
             }
 
         }).then(function(res){
