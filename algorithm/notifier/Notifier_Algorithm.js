@@ -78,6 +78,8 @@ module.exports = {
                                 notification = notification+"------- ALERT ON TRADES -------\n";
                                 notification = notification+"EVOLUTION : "+EvolCrypto[i].EVC_EVOL_NB_TRADES_ON_PERIOD.toFixed(2)+" %\n";
                             }
+                            notification = notification+"-------------------------------\n"
+                            notification = notification+"NB PERIODS : "+EvolCrypto[i].EVC_NB_PERIOD+"\n"
                             notification = notification+"-------------------------------\n\n"
                             if(ExchangeInfo[j].EXI_SYMBOL.substr(ExchangeInfo[j].EXI_SYMBOL.length-3) === 'BTC'){
                                 count++;
