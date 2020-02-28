@@ -46,7 +46,7 @@
     <div class="row justify-content-md-center">
         <div class="col">
             <div ng-controller="Ctrl_Date" class="text-center">
-                {{ today | date }} - Refresh data in {{remainingTimeBeforeRefresh}} seconds
+                {{ today | date }}
             </div>
         </div>
     </div>
@@ -133,13 +133,6 @@
                 + currentdate.getMinutes() + ":"
                 + currentdate.getSeconds();
             $scope.today = datetime;
-
-            // init
-            if($scope.remainingTimeBeforeRefresh === 0 || !$scope.remainingTimeBeforeRefresh){
-                $scope.remainingTimeBeforeRefresh = 60;
-            }
-            $scope.remainingTimeBeforeRefresh--;
-
         },1000);
     });
 
