@@ -7,10 +7,10 @@ const client = Binance({
 });
 
 module.exports = {
-    binance_Candles: function(callback, symbol, interval, param_fw1) {
+    binance_Candles: function(callback, symbol, interval, startAt,  param_fw1) {
         return new Promise(async function (resolve, reject) {
 
-            let result = await client.candles({ symbol: symbol, interval: interval, limit: 1});
+            let result = await client.candles({ symbol: symbol, interval: interval, startTime: startAt, limit:  1});
             resolve(result);
         }).then(function(data){
             callback(null, data, symbol, param_fw1);

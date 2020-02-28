@@ -17,7 +17,7 @@ module.exports = {
             1 - We load Candles via Binance API
             2 - We insert in DB the T_CANDLE_CAD
          */
-        let timeAgo = moment(new Date()).add(-1, 'minutes').valueOf();
+        let timeAgo = moment(new Date()).add(-1, 'minutes').set({second:0,millisecond:0}).valueOf();
         let now = moment().format();
 
         async.waterfall([
@@ -36,9 +36,9 @@ module.exports = {
         function STEP_API_getCandles(err, data) {
             for(let i=0; i<data.length; i++){
                 if(i === data.length-1){
-                    API_Candles.binance_Candles(STEP_DB_insertCandles, data[i].EXI_SYMBOL, "1m", true);
+                    API_Candles.binance_Candles(STEP_DB_insertCandles, data[i].EXI_SYMBOL, "1m", timeAgo, true);
                 }else{
-                    API_Candles.binance_Candles(STEP_DB_insertCandles, data[i].EXI_SYMBOL, "1m", false);
+                    API_Candles.binance_Candles(STEP_DB_insertCandles, data[i].EXI_SYMBOL, "1m", timeAgo, false);
                 }
             }
         }

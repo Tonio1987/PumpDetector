@@ -53,11 +53,19 @@
 </div>
 <div class="row justify-content-md-center">
     <div class="col-9">
-        <div ng-controller="Ctrl_LastNotifications" class="text-center">
+        <div ng-controller="Ctrl_LoadNotifications" class="text-center">
+            <br /> </br />
             <h4>Find Notifications :</h4><br />
+            <label>Select Symbol :</label>
+
+            <select class="col-3" ng-model="pairSelected" ng-change="loadPairData(pairSelected)" class="custom-select mr-sm-2">
+                <option ng-repeat="pair in pairs" value="{{pair.EXI_SYMBOL}}">{{pair.EXI_SYMBOL}}</option>
+            </select>
+
             <table class="table table-striped table-dark table-center-text table-sm table-hover">
                 <thead>
                 <tr>
+                    <th scope="col">Date time</th>
                     <th scope="col">Symbol</th>
                     <th scope="col">Volume Status</th>
                     <th scope="col">Volume Evol</th>
@@ -68,9 +76,19 @@
                     <th scope="col">Nb Periods</th>
                 </tr>
                 </thead>
-                <tbody ng-repeat="notif in lastNotifications">
+                <tbody ng-repeat="notif in Notifications">
                 <tr>
+                    <td>{{notif.EVC_DATETIME}}</td>
+                    <td>{{notif.EVC_SYMBOL}}</td>
+                    <td ng-class="{'text-red': notif.EVC_EVOL_VOLUME_ON_PERIOD_STATUS === 'ALERT', 'text-yellow': notif.EVC_EVOL_VOLUME_ON_PERIOD_STATUS === 'WARNING' , 'text-green': notif.EVC_EVOL_VOLUME_ON_PERIOD_STATUS === 'R-A-S'}">{{notif.EVC_EVOL_VOLUME_ON_PERIOD_STATUS}}</td>
+                    <td ng-class="{'text-red': notif.EVC_EVOL_VOLUME_ON_PERIOD < 0, 'text-green': notif.EVC_EVOL_VOLUME_ON_PERIOD >= 0}"> {{notif.EVC_EVOL_VOLUME_ON_PERIOD.toFixed(2)}} &percnt;</td>
 
+                    <td ng-class="{'text-red': notif.EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS === 'ALERT', 'text-yellow': notif.EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS === 'WARNING' , 'text-green': notif.EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS === 'R-A-S'}">{{notif.EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS}}</td>
+                    <td ng-class="{'text-red': notif.EVC_EVOL_NB_TRADES_ON_PERIOD < 0, 'text-green': notif.EVC_EVOL_NB_TRADES_ON_PERIOD >= 0}"> {{notif.EVC_EVOL_NB_TRADES_ON_PERIOD.toFixed(2)}} &percnt;</td>
+
+                    <td ng-class="{'text-red': notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'ALERT', 'text-yellow': notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'WARNING' , 'text-green': notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS === 'R-A-S'}">{{notif.EVC_EVOL_PRICE_ON_PERIOD_STATUS}}</td>
+                    <td ng-class="{'text-red': notif.EVC_EVOL_PRICE_ON_PERIOD < 0, 'text-green': notif.EVC_EVOL_PRICE_ON_PERIOD >= 0}"> {{notif.EVC_EVOL_PRICE_ON_PERIOD.toFixed(2)}} &percnt;</td>
+                    <td> {{notif.EVC_NB_PERIOD}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -79,6 +97,30 @@
 </div>
 <script>
     var app = angular.module('myApp', []);
+
+    app.controller('Ctrl_LoadNotifications', function($http, $scope, $interval) {
+        $http.get("/GET_home_pairsList")
+            .then(function (response) {
+                $scope.pairs = response.data;
+            }).catch(function (response) {
+            $scope.pairs = 'Erreur';
+        });
+
+        $scope.loadPairData = function (pairSelected) {
+            let data = {symbol: pairSelected};
+            $http({
+                method: 'POST',
+                url: '/POST_home_NotificationsData',
+                headers: {'Content-Type': 'application/json'},
+                data: data
+            }).then(function (response) {
+                console.log(response.data);
+                $scope.Notifications = response.data;
+            }).catch(function (response) {
+                $scope.pairs = 'Erreur';
+            });
+        };
+    });
 
     /* DATE CONTROLLER */
     app.controller('Ctrl_Date', function($scope, $interval) {

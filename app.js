@@ -87,11 +87,17 @@ app.use('/pairs', pairsRouter);
 app.use('/settings', settingsRouter);
 
 // CALL REST API ROUTES
+var REST_home_listPairs = require('./routes/rest_api/home/list_Pairs');
+var REST_home_getSymbolNotifications = require('./routes/rest_api/home/Symbol_Notification');
+
 var REST_LastNotificationsRouter = require('./routes/rest_api/last_notif/LastNotification');
 var REST_settings = require('./routes/rest_api/settings/list_Settings');
 var REST_editSettings = require('./routes/rest_api/settings/edit_Settings');
 var REST_pairs = require('./routes/rest_api/pairs/list_Pairs');
 var REST_editPair = require('./routes/rest_api/pairs/edit_Pair');
+
+app.use('/GET_home_pairsList', REST_home_listPairs);
+app.use('/POST_home_NotificationsData', REST_home_getSymbolNotifications);
 
 app.use('/POST_last_notifications', REST_LastNotificationsRouter);
 app.use('/GET_settings', REST_settings);

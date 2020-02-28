@@ -26,7 +26,7 @@ function notifyUsers(message){
 }
 
 module.exports = {
-    prepare_Notification: function(callback, EvolCrypto, ExchangeInfo) {
+    prepare_Notification: function(callback, callbackIfNoNotif, EvolCrypto, ExchangeInfo) {
         new Promise(function (resolve, reject) {
             if(EvolCrypto != null && EvolCrypto.length > 0){
                 let notification = "-------------------------------\n";
@@ -88,13 +88,19 @@ module.exports = {
                 if(count>0){
                     notifyUsers(notification);
                 }
-                resolve(notification);
+                let res = {notification: notification, nbNotif: count};
+                resolve(res);
             }else{
+                let res = {notification: null, nbNotif: 0};
                 resolve(null);
             }
 
         }).then(function(res){
-            callback(null, res);
+            if(res.nbNotif > 0){
+                callback(null, res);
+            }else{
+                callbackIfNoNotif(null, res)
+            }
         }).catch(function(err) {
             callback(err, null);
         });

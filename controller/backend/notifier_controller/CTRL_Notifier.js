@@ -46,7 +46,7 @@ module.exports = {
 
         function STEP_ALGO_prepareNotifications(err, ExchangeInfo, EvolCrypto) {
             if(!err){
-                ALGO_Notifier.prepare_Notification(STEP_DB_insertNotifications, EvolCrypto, ExchangeInfo);
+                ALGO_Notifier.prepare_Notification(STEP_DB_insertNotifications, STEP_finish, EvolCrypto, ExchangeInfo);
             }else{
                 STEP_finish(err, EvolCrypto);
             }
