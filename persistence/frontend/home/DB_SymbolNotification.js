@@ -8,7 +8,6 @@ module.exports = {
         new Promise(function (resolve, reject) {
             //let alert = ['ALERT'];
             //let warning = ['WARNING'];
-            console.log(symbol);
             let symb = [symbol];
 
             let sql = 'SELECT * FROM T_ALGO_EVOL_CRYPTO_EVC WHERE EVC_SYMBOL = ? ORDER BY EVC_DATETIME DESC';

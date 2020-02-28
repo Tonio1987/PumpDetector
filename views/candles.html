@@ -31,7 +31,7 @@
         <a class="nav-link" href="/">Home</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/candles">Candles</a>
+        <a class="nav-link active" href="/candles">Candles</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/last_notifications">Last Notifications</a>
@@ -40,7 +40,7 @@
         <a class="nav-link" href="/pairs">Pairs</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" href="/settings">Setings</a>
+        <a class="nav-link" href="/settings">Settings</a>
     </li>
 </ul>
 
@@ -53,29 +53,41 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-md-center">
-        <div class="col-10">
-            <br /><br />
-            <h3>Edition des paramètres</h3>
-            <table ng-controller="Ctrl_Settings" class="table table-striped table-dark table-sm">
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-9">
+        <div ng-controller="Ctrl_Candles" class="text-center">
+            <br /> </br />
+            <h4>Find Candles :</h4><br />
+            <label>Select Symbol :</label>
+
+            <select class="col-3" ng-model="pairSelected" ng-change="loadPairData(pairSelected)" class="custom-select mr-sm-2">
+                <option ng-repeat="pair in pairs" value="{{pair.EXI_SYMBOL}}">{{pair.EXI_SYMBOL}}</option>
+            </select>
+
+            <table class="table table-striped table-dark table-center-text table-sm table-hover">
                 <thead>
                 <tr>
-                    <th scope="col-1">Algorithme</th>
-                    <th scope="col-1">Name</th>
-                    <th scope="col-5">Description</th>
-                    <th scope="col-1">Value</th>
-                    <th scope="col-1"></th>
+                    <th scope="col">Date time</th>
+                    <th scope="col">Symbol</th>
+                    <th scope="col">Open Price</th>
+                    <th scope="col">High Price</th>
+                    <th scope="col">Low Price</th>
+                    <th scope="col">Close Price</th>
+                    <th scope="col">Volume</th>
+                    <th scope="col">Nb Trades</th>
                 </tr>
                 </thead>
-                <tbody ng-repeat="trigger in myTriggers">
+                <tbody ng-repeat="candle in Candles">
                 <tr>
-                    <td>{{trigger.PMT_ALGO}}</td>
-                    <td>{{trigger.PMT_NAME}}</td>
-                    <td>{{trigger.PMT_DESCR}}</td>
-                    <td>
-                        <input ng-attr-id="{{trigger.PMT_NAME}}" type="text" ng-model="trigger.PMT_VALUE" required ng-trim="true">
-                    </td>
-                    <td><button ng-attr-id="{{trigger.PMT_ID}}" type="button" class="btn btn-success btn-sm" ng-click="changeSettingValue(trigger.PMT_ID, trigger.PMT_VALUE)">Submit</button></td>
+                    <td>{{candle.CAD_DATETIME}}</td>
+                    <td>{{candle.CAD_SYMBOL}}</td>
+                    <td>{{candle.CAD_OPEN_PRICE}}</td>
+                    <td>{{candle.CAD_HIGH_PRICE}}</td>
+                    <td>{{candle.CAD_LOW_PRICE}}</td>
+                    <td>{{candle.CAD_CLOSE_PRICE}}</td>
+                    <td>{{candle.CAD_VOLUME}}</td>
+                    <td>{{candle.CAD_NUMBER_OF_TRADES}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -85,33 +97,27 @@
 <script>
     var app = angular.module('myApp', []);
 
-
-    // CRON TASKS CONTROLLER
-    app.controller('Ctrl_Settings', function($scope, $http) {
-        $http.get("GET_settings")
-            .then(function(response) {
-                $scope.myTriggers = response.data;
-            }).catch(function(response) {
-            $scope.myTriggers = 'Erreur';
+    app.controller('Ctrl_Candles', function($http, $scope, $interval) {
+        $http.get("/GET_candle_pairsList")
+            .then(function (response) {
+                $scope.pairs = response.data;
+            }).catch(function (response) {
+            $scope.pairs = 'Erreur';
         });
 
-        $scope.changeSettingValue = function(id, value) {
-            console.log(id+'  '+value);
-            let data = {settings_id: id, settings_value: value};
+        $scope.loadPairData = function (pairSelected) {
+            let data = {symbol: pairSelected};
             $http({
                 method: 'POST',
-                url: 'POST_settings',
+                url: '/POST_candle_getCandles',
                 headers: {'Content-Type': 'application/json'},
                 data: data
             }).then(function (response) {
-                $http.get("GET_settings")
-                    .then(function(response) {
-                        $scope.myTriggers = response.data;
-                    }).catch(function(response) {
-                    $scope.myTriggers = 'Erreur';
-                });
+                $scope.Candles = response.data;
+            }).catch(function (response) {
+                $scope.Candles = 'Erreur';
             });
-        }
+        };
     });
 
     /* DATE CONTROLLER */

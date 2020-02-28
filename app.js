@@ -77,11 +77,13 @@ loggerjs.info('-------> Routes initialization ...  ');
 
 // CALL ROUTES
 var homeRouter = require('./routes/home');
+var candlesRouter = require('./routes/candles');
 var lastNotificationsRouter = require('./routes/last_notifications');
 var pairsRouter = require('./routes/pairs');
 var settingsRouter = require('./routes/settings');
 
 app.use('/', homeRouter);
+app.use('/candles', candlesRouter);
 app.use('/last_notifications', lastNotificationsRouter);
 app.use('/pairs', pairsRouter);
 app.use('/settings', settingsRouter);
@@ -89,6 +91,9 @@ app.use('/settings', settingsRouter);
 // CALL REST API ROUTES
 var REST_home_listPairs = require('./routes/rest_api/home/list_Pairs');
 var REST_home_getSymbolNotifications = require('./routes/rest_api/home/Symbol_Notification');
+
+var REST_candle_listPairs = require('./routes/rest_api/candles/list_Pairs');
+var REST_candle_getCandles = require('./routes/rest_api/candles/Candles');
 
 var REST_LastNotificationsRouter = require('./routes/rest_api/last_notif/LastNotification');
 var REST_settings = require('./routes/rest_api/settings/list_Settings');
@@ -98,6 +103,9 @@ var REST_editPair = require('./routes/rest_api/pairs/edit_Pair');
 
 app.use('/GET_home_pairsList', REST_home_listPairs);
 app.use('/POST_home_NotificationsData', REST_home_getSymbolNotifications);
+
+app.use('/GET_candle_pairsList', REST_candle_listPairs);
+app.use('/POST_candle_getCandles', REST_candle_getCandles);
 
 app.use('/POST_last_notifications', REST_LastNotificationsRouter);
 app.use('/GET_settings', REST_settings);

@@ -31,6 +31,9 @@
         <a class="nav-link active" href="/">Home</a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="/candles">Candles</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="/last_notifications">Last Notifications</a>
     </li>
     <li class="nav-item">
@@ -42,7 +45,7 @@
 </ul>
 
 <!-- Main Container -->
-<div  class="container-fluid">
+<div class="container-fluid">
     <div class="row justify-content-md-center">
         <div class="col">
             <div ng-controller="Ctrl_Date" class="text-center">
@@ -114,10 +117,9 @@
                 headers: {'Content-Type': 'application/json'},
                 data: data
             }).then(function (response) {
-                console.log(response.data);
                 $scope.Notifications = response.data;
             }).catch(function (response) {
-                $scope.pairs = 'Erreur';
+                $scope.Notifications = 'Erreur';
             });
         };
     });
