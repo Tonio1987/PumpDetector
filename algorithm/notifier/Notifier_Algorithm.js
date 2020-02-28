@@ -28,7 +28,7 @@ function notifyUsers(message){
 module.exports = {
     prepare_Notification: function(callback, EvolCrypto, ExchangeInfo) {
         new Promise(function (resolve, reject) {
-            if(EvolCrypto.length > 0){
+            if(EvolCrypto != null && EvolCrypto.length > 0){
                 let notification = "-------------------------------\n";
                 notification = notification+ "---- >>> PUMP DETECTED <<< ----\n";
                 notification = notification+ "-------------------------------\n";
