@@ -7,7 +7,8 @@ module.exports = {
         new Promise(function (resolve, reject) {
             let alert = ['ALERT'];
             let warning = ['WARNING'];
-            let symb = ['BTC', 'USD'];
+            let symb = ['BTC'];
+            let symb2 = ['USD'];
             /*
             SELECT * FROM T_ALGO_EVOL_CRYPTO_EVC
             WHERE EVC_LAST_INSERT = 1
@@ -23,9 +24,9 @@ module.exports = {
              */
 
             //let sql = 'SELECT * FROM T_ALGO_EVOL_CRYPTO_EVC WHERE EVC_LAST_INSERT = 1 AND RIGHT(EVC_SYMBOL, 3) = ? AND (EVC_EVOL_VOLUME_ON_PERIOD_STATUS = ? OR EVC_EVOL_VOLUME_ON_PERIOD_STATUS = ? OR EVC_EVOL_PRICE_ON_PERIOD_STATUS = ? OR EVC_EVOL_PRICE_ON_PERIOD_STATUS = ? OR EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS = ? OR EVC_EVOL_NB_TRADES_ON_PERIOD_STATUS = ?) ORDER BY EVC_EVOL_PRICE_ON_PERIOD DESC';
-            let sql = 'SELECT * FROM T_ALGO_EVOL_CRYPTO_EVC WHERE EVC_LAST_INSERT = 1 AND RIGHT(EVC_SYMBOL, 3) IIN (?) AND (EVC_EVOL_PRICE_ON_PERIOD_STATUS = ? OR EVC_EVOL_PRICE_ON_PERIOD_STATUS = ?) ORDER BY EVC_EVOL_PRICE_ON_PERIOD DESC';
+            let sql = 'SELECT * FROM T_ALGO_EVOL_CRYPTO_EVC WHERE EVC_LAST_INSERT = 1 AND RIGHT(EVC_SYMBOL, 3) IN (?, ?) AND (EVC_EVOL_PRICE_ON_PERIOD_STATUS = ? OR EVC_EVOL_PRICE_ON_PERIOD_STATUS = ?) ORDER BY EVC_EVOL_PRICE_ON_PERIOD DESC';
             //db.connection.query(sql, [btc, alert, warning, alert, warning, alert, warning], function (err, result) {
-            db.connection.query(sql, [symb, alert, warning], function (err, result) {
+            db.connection.query(sql, [symb, symb2, alert, warning], function (err, result) {
                 if (err) {
                     reject(err);
                 }
