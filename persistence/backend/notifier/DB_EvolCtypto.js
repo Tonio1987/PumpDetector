@@ -14,7 +14,7 @@ module.exports = {
             WHERE EVC_LAST_INSERT = 1
             AND
             (
-                //EVC_EVOL_VOLUME_ON_PERIOD_STATUS = 'ALERT'
+                //EVC_EVOL_VOLUME_ON_PERIOD_STATUS = 'A LERT'
                 //OR EVC_EVOL_VOLUME_ON_PERIOD_STATUS = 'WARNING'
                 OR EVC_EVOL_PRICE_ON_PERIOD_STATUS = 'ALERT'
                 OR EVC_EVOL_PRICE_ON_PERIOD_STATUS = 'WARNING'

@@ -1,5 +1,7 @@
 const moment = require('moment');
 moment.locale('fr');
+var logger = log4js.getLogger();
+logger.level = 'debug';
 
 // NOTIFIER
 var Push = require( 'pushover-notifications' );
