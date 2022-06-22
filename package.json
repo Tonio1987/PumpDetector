@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "async": "^3.1.1",
+    "async": "^3.2.2",
     "binance-api-node": "^0.9.15",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
